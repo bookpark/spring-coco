@@ -1,18 +1,24 @@
 package kfq.springcoco.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer user_id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false, unique = true)
     private String nickname;
 
-    @Column(length = 100, unique = true, nullable = false)
+    @Column(length = 100, nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
