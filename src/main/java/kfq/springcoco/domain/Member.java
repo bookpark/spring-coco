@@ -8,12 +8,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-
 public class Member {
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer user_id;
+    private Integer userId;
 
     @Column(length = 20, nullable = false, unique = true)
     private String nickname;
