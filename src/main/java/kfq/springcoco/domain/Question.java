@@ -8,7 +8,7 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int question_id;
+    private Integer question_id;
 
     @Column(length = 200, nullable = false)
     private String title;
@@ -17,7 +17,7 @@ public class Question {
     private String content;
 
     @Column(nullable = false)
-    private int price;
+    private Integer price;
 
     @Column
     private LocalDateTime created_time;
