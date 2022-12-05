@@ -13,9 +13,9 @@ import java.util.Set;
 public class Member {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Integer memberId;
 
     @Column(length = 20, nullable = false, unique = true)
     private String nickname;
