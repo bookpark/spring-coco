@@ -1,9 +1,14 @@
 package kfq.springcoco.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Question {
 
     @Id
@@ -24,5 +29,8 @@ public class Question {
 
     @Column
     private LocalDateTime modified_time;
+
+    @ManyToOne
+    private Member author;
 
 }
