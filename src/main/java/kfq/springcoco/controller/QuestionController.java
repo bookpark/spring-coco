@@ -1,6 +1,5 @@
 package kfq.springcoco.controller;
 
-import kfq.springcoco.domain.Question;
 import kfq.springcoco.service.MemberService;
 import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +22,10 @@ public class QuestionController {
         ResponseEntity<String> res = null;
         try {
             questionService.createQuestion(title, content, price);
-            res = new ResponseEntity<String>("회원가입 성공", HttpStatus.OK);
+            res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            res = new ResponseEntity<String>("회원가입 실패", HttpStatus.BAD_REQUEST);
+            res = new ResponseEntity<String>("질문 작성 실패", HttpStatus.BAD_REQUEST);
         }
         return res;
     }
