@@ -1,11 +1,15 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.domain.Question;
 import kfq.springcoco.service.MemberService;
 import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,4 +34,17 @@ public class QuestionController {
         return res;
     }
 
+    @GetMapping("/api/questions")
+    public ResponseEntity<List<Question>> questionList() throws Exception {
+        ResponseEntity<List<Question>> res = null;
+        List<Question> questions = null;
+        try {
+            questions = questionService.questionList();
+            res = new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Question>>(questions, HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
 }
