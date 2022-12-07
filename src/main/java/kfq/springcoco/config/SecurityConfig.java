@@ -28,7 +28,9 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 인증되지 않아도 모든 요청 허락
-        http.authorizeHttpRequests().antMatchers("/**").permitAll();
+        http.cors().and().csrf().disable()
+                .authorizeRequests().antMatchers("/api/**").permitAll()
+                .anyRequest().authenticated();
         return http.build();
     }
 }
