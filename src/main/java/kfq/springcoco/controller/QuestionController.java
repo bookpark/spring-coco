@@ -47,4 +47,17 @@ public class QuestionController {
         }
         return res;
     }
+
+    @GetMapping("/api/questions/{id}")
+    public ResponseEntity<Question> questionDetail(@PathVariable Integer id) throws Exception {
+        ResponseEntity<Question> res = null;
+        try {
+            Question question = questionService.getQuestion(id);
+            res = new ResponseEntity<Question>(question, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<Question>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
 }
