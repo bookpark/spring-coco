@@ -24,12 +24,20 @@ public class MemberService {
         return member;
     }
 
-    public Member findOne(Integer memberId) throws Exception {
+    public Member findMember(Integer memberId) throws Exception {
         Optional<Member> member = this.memberRepository.findById(memberId);
         if (member.isPresent()) {
             return member.get();
         }
         throw new Exception("조회 실패!");
+    }
+
+    public void deleteMember(Integer memberId) throws Exception {
+        try {
+            this.memberRepository.deleteById(memberId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
