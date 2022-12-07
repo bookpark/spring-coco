@@ -22,10 +22,10 @@ public class MemberController {
         ResponseEntity<String> res = null;
         try {
             memberService.signUp(email, password, nickname);
-            res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
+            res = new ResponseEntity<String>("회원가입 성공", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            res = new ResponseEntity<String>("질문 작성 실패", HttpStatus.BAD_REQUEST);
+            res = new ResponseEntity<String>("회원가입 실패", HttpStatus.BAD_REQUEST);
         }
         return res;
     }
