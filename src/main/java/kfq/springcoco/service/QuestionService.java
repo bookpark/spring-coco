@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,12 +16,8 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public void createQuestion(String title, String content, Integer price) {
-        Question q = new Question();
-        q.setTitle(title);
-        q.setContent(content);
-        q.setPrice(price);
-        this.questionRepository.save(q);
+    public void createQuestion(Question question) {
+        this.questionRepository.save(question);
     }
 
     public List<Question> questionList() {
