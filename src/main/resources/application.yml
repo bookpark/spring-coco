@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/spring?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/coco?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
     password: Coco123!
     driver-class-name: com.mysql.cj.jdbc.Driver
