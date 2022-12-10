@@ -39,7 +39,7 @@ public class QuestionController {
             res = new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            res = new ResponseEntity<List<Question>>(questions, HttpStatus.BAD_REQUEST);
+            res = new ResponseEntity<List<Question>>(HttpStatus.BAD_REQUEST);
         }
         return res;
     }

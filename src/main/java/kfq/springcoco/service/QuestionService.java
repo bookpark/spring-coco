@@ -21,7 +21,7 @@ public class QuestionService {
     }
 
     public List<Question> questionList() {
-        return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "question_id"));
+        return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Question getQuestion(Integer id) throws Exception {

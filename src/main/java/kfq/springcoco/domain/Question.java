@@ -15,7 +15,7 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer question_id;
+    private Integer id;
 
     @Column(length = 200, nullable = false)
     private String title;
@@ -27,10 +27,10 @@ public class Question {
     private Integer price;
 
     @Column
-    private LocalDateTime created_time;
+    private LocalDateTime createdTime;
 
     @Column
-    private LocalDateTime modified_time;
+    private LocalDateTime modifiedTime;
 
     @ManyToOne
     private Member author;
