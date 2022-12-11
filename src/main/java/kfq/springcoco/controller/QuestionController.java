@@ -44,11 +44,11 @@ public class QuestionController {
         return res;
     }
 
-    @GetMapping("/api/questions/{id}")
-    public ResponseEntity<Question> questionDetail(@PathVariable Integer id) throws Exception {
+    @GetMapping("/api/questions/{questionId}")
+    public ResponseEntity<Question> questionDetail(@PathVariable Integer questionId) throws Exception {
         ResponseEntity<Question> res = null;
         try {
-            Question question = questionService.getQuestion(id);
+            Question question = questionService.getQuestion(questionId);
             res = new ResponseEntity<Question>(question, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

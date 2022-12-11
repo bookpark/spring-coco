@@ -13,16 +13,16 @@ import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
-    private Integer member_id;
+    private Integer memberId;
     private String nickname;
     private String email;
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Integer member_id, String nickname, String email, String password,
+    public UserDetailsImpl(Integer memberId, String nickname, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
-        this.member_id = member_id;
+        this.memberId = memberId;
         this.nickname = nickname;
         this.email = email;
         this.password = password;
@@ -48,8 +48,8 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public Integer getMember_id() {
-        return member_id;
+    public Integer getMemberId() {
+        return memberId;
     }
 
     public String getNickname() {
@@ -97,6 +97,6 @@ public class UserDetailsImpl implements UserDetails {
         if (o == null || getClass() != o.getClass())
             return false;
         UserDetailsImpl member = (UserDetailsImpl) o;
-        return Objects.equals(member_id, member.member_id);
+        return Objects.equals(memberId, member.memberId);
     }
 }

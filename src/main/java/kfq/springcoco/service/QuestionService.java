@@ -21,11 +21,11 @@ public class QuestionService {
     }
 
     public List<Question> questionList() {
-        return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "questionId"));
     }
 
-    public Question getQuestion(Integer id) throws Exception {
-        Optional<Question> question = questionRepository.findById(id);
+    public Question getQuestion(Integer questionId) throws Exception {
+        Optional<Question> question = questionRepository.findById(questionId);
         if (question.isPresent()) {
             return question.get();
         }

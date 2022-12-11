@@ -63,7 +63,7 @@ public class MemberController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getMember_id(),
+                userDetails.getMemberId(),
                 userDetails.getNickname(),
                 userDetails.getEmail(),
                 roles));
