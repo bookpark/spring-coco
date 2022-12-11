@@ -15,7 +15,7 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer questionId;
 
     @Column(length = 200, nullable = false)
     private String title;
