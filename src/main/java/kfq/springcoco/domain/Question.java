@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +29,10 @@ public class Question {
 
     @Column
     private LocalDateTime modifiedTime;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @ToString.Exclude
+    private List<Answer> answerList;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
