@@ -23,9 +23,6 @@ public class Question {
     @Column(length = 2000, nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private Integer price;
-
     @Column
     private LocalDateTime createdTime;
 
