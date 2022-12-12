@@ -33,6 +33,7 @@ public class Question {
     private LocalDateTime modifiedTime;
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member author;
 
 }
