@@ -18,10 +18,11 @@ public class QuestionController {
     private final MemberService memberService;
 
     @PostMapping("/api/questions")
-    public ResponseEntity<String> createQuestion(@ModelAttribute Question question) {
+    public ResponseEntity<String> createQuestion(@RequestParam String title,
+                                                 @RequestParam String content) {
         ResponseEntity<String> res = null;
         try {
-            questionService.createQuestion(question);
+            questionService.createQuestion(title, content);
             res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
