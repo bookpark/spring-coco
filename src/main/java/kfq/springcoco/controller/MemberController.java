@@ -74,19 +74,15 @@ public class MemberController {
         if (memberRepository.existsByEmail(signUpDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("이미 사용된 이메일 주소입니다."));
         }
 
-        if (memberRepository.existsByEmail(signUpDto.getEmail())) {
+        if (memberRepository.existsByNickname(signUpDto.getNickname())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("이미 사용된 닉네임입니다."));
         }
 
-        // Create new user's account
-//        Member member = new Member(signUpDto.getEmail(),
-//                signUpDto.getNickname(),
-//                encoder.encode(signUpDto.getPassword()));
         Member member = new Member();
         member.setNickname(signUpDto.getNickname());
         member.setEmail(signUpDto.getEmail());
@@ -115,24 +111,7 @@ public class MemberController {
 //
 //        member.setRoles(roles);
         memberRepository.save(member);
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("회원가입 성공!"));
     }
-
-//    @PostMapping("/api/members")
-//    public ResponseEntity<String> signUp(@RequestParam("email") String email,
-//                                         @RequestParam("password") String password,
-//                                         @RequestParam("nickname") String nickname
-//    ) {
-//        ResponseEntity<String> res = null;
-//        try {
-//            memberService.signUp(email, password, nickname);
-//            res = new ResponseEntity<String>("회원가입 성공", HttpStatus.OK);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            res = new ResponseEntity<String>("회원가입 실패", HttpStatus.BAD_REQUEST);
-//        }
-//        return res;
-//    }
 
 }
