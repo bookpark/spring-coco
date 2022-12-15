@@ -1,4 +1,4 @@
-package kfq.springcoco.domain;
+package kfq.springcoco.entity;
 
 import lombok.Getter;
 import lombok.Setter;
