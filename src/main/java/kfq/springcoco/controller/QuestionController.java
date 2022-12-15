@@ -1,6 +1,8 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
+import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.MemberService;
 import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +18,16 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final MemberService memberService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @PostMapping("/api/questions")
     public ResponseEntity<String> createQuestion(@RequestParam String title,
-                                                 @RequestParam String content) {
+                                                 @RequestParam String content,
+                                                 @RequestParam String id) {
         ResponseEntity<String> res = null;
         try {
-            questionService.createQuestion(title, content);
+            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+            questionService.createQuestion(title, content, member);
             res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

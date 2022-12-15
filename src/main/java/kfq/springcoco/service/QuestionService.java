@@ -1,5 +1,6 @@
 package kfq.springcoco.service;
 
+import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
 import kfq.springcoco.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,12 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public void createQuestion(String title, String content) {
+    public void createQuestion(String title, String content, Member author) {
         Question q = new Question();
         q.setTitle(title);
         q.setContent(content);
         q.setCreatedTime(LocalDateTime.now());
+        q.setAuthor(author);
         this.questionRepository.save(q);
     }
 
