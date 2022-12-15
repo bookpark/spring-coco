@@ -35,16 +35,14 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestParam String email,
-                                                     String password) {
-        System.out.println(email);
-        System.out.println(password);
+    public ResponseEntity<Map<String, String>> login(String email, String password) {
         try {
             Map<String, String> res = new HashMap<>();
             Member member = (Member) customUserDetailsService.loadUserByUsername(email);
             if (member != null && passwordEncoder.matches(password, member.getPassword())) {
                 String accessToken = jwtTokenProvider.createToken(member.getUsername());
                 String refreshToken = jwtTokenProvider.refreshToken(member.getUsername());
+                System.out.println(accessToken + "," + refreshToken);
                 res.put("email", member.getEmail());
                 res.put("nickname", member.getNickname());
                 res.put("accessToken", accessToken);
