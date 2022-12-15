@@ -34,6 +34,12 @@ public class MemberController {
 
     }
 
+    /**
+     * 로그인
+     * @param email
+     * @param password
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(String email, String password) {
         try {
@@ -55,6 +61,11 @@ public class MemberController {
         return new ResponseEntity<Map<String, String>>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 회원가입
+     * @param signupRequest
+     * @return
+     */
     @PostMapping("/api/members")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
         if (memberRepository.existsByEmail(signupRequest.getEmail())) {
@@ -76,5 +87,6 @@ public class MemberController {
         memberRepository.save(member);
         return ResponseEntity.ok(new MessageResponse("회원가입 성공!"));
     }
+
 
 }
