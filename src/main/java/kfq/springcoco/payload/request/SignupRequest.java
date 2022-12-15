@@ -20,7 +20,7 @@ public class SignupRequest {
     private String password;
 
     @NotBlank
-    @Size(min = 3, max = 20)
+    @Size(min = 1, max = 20)
     private String nickname;
 
 }
