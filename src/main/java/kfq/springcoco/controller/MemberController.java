@@ -89,8 +89,8 @@ public class MemberController {
     }
 
     // 프로필 조회
-    @PostMapping("/api/members/{id}")
-    public ResponseEntity<Member> userInfo(@PathVariable String id) {
+    @PostMapping("/api/members/profile")
+    public ResponseEntity<Member> userInfo(String id) {
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
