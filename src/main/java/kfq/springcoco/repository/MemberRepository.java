@@ -1,6 +1,6 @@
 package kfq.springcoco.repository;
 
-import kfq.springcoco.domain.Member;
+import kfq.springcoco.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
