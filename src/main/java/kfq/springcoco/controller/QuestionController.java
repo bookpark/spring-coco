@@ -1,6 +1,6 @@
 package kfq.springcoco.controller;
 
-import kfq.springcoco.domain.Question;
+import kfq.springcoco.entity.Question;
 import kfq.springcoco.service.MemberService;
 import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
