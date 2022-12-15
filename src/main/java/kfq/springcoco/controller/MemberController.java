@@ -88,5 +88,11 @@ public class MemberController {
         return ResponseEntity.ok(new MessageResponse("회원가입 성공!"));
     }
 
+    // 프로필 조회
+    @PostMapping("/api/members/{id}")
+    public ResponseEntity<Member> userInfo(@PathVariable String id) {
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        return new ResponseEntity<>(member, HttpStatus.OK);
+    }
 
 }
