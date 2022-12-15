@@ -1,6 +1,6 @@
 package kfq.springcoco.service;
 
-import kfq.springcoco.domain.Member;
+import kfq.springcoco.entity.Member;
 import kfq.springcoco.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

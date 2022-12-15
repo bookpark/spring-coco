@@ -1,115 +1,80 @@
 package kfq.springcoco.controller;
 
-import kfq.springcoco.domain.ERole;
-import kfq.springcoco.domain.Member;
-import kfq.springcoco.domain.Role;
-import kfq.springcoco.dto.JwtResponse;
-import kfq.springcoco.dto.LoginDto;
-import kfq.springcoco.dto.MessageResponse;
-import kfq.springcoco.dto.SignUpDto;
+import kfq.springcoco.entity.Member;
+import kfq.springcoco.payload.request.SignupRequest;
+import kfq.springcoco.payload.response.MessageResponse;
 import kfq.springcoco.repository.MemberRepository;
-import kfq.springcoco.repository.RoleRepository;
-import kfq.springcoco.security.UserDetailsImpl;
-import kfq.springcoco.security.jwt.JwtUtils;
-import kfq.springcoco.service.MemberService;
+import kfq.springcoco.security.jwt.JwtTokenProvider;
+import kfq.springcoco.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService memberService;
-
-    private final AuthenticationManager authenticationManager;
-
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
-    private final RoleRepository roleRepository;
+    @PostMapping("/test")
+    public ResponseEntity<?> test(String email, String password) {
+        System.out.println(email);
+        System.out.println(password);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-    private final PasswordEncoder encoder;
+    }
 
-    private final JwtUtils jwtUtils;
-
-    @PostMapping("/api/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDto loginDto) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getMemberId(),
-                userDetails.getNickname(),
-                userDetails.getEmail(),
-                roles));
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestParam String email,
+                                                     String password) {
+        System.out.println(email);
+        System.out.println(password);
+        try {
+            Map<String, String> res = new HashMap<>();
+            Member member = (Member) customUserDetailsService.loadUserByUsername(email);
+            if (member != null && passwordEncoder.matches(password, member.getPassword())) {
+                String accessToken = jwtTokenProvider.createToken(member.getUsername());
+                String refreshToken = jwtTokenProvider.refreshToken(member.getUsername());
+                res.put("email", member.getEmail());
+                res.put("nickname", member.getNickname());
+                res.put("accessToken", accessToken);
+                res.put("refreshToken", refreshToken);
+                return new ResponseEntity<Map<String, String>>(res, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<Map<String, String>>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/api/members")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpDto signUpDto) {
-        if (memberRepository.existsByEmail(signUpDto.getEmail())) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+        if (memberRepository.existsByEmail(signupRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("이미 사용된 이메일 주소입니다."));
         }
 
-        if (memberRepository.existsByNickname(signUpDto.getNickname())) {
+        if (memberRepository.existsByNickname(signupRequest.getNickname())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("이미 사용된 닉네임입니다."));
         }
 
         Member member = new Member();
-        member.setNickname(signUpDto.getNickname());
-        member.setEmail(signUpDto.getEmail());
-        member.setPassword(encoder.encode(signUpDto.getPassword()));
-
-//        Set<String> strRoles = signUpDto.getRole();
-//        Set<Role> roles = new HashSet<>();
-//
-//        if (strRoles == null) {
-//            Role userRole = roleRepository.findByName(ERole.ROLE_MEMBER)
-//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//            roles.add(userRole);
-//        } else {
-//            strRoles.forEach(role -> {
-//                if (role.equals("admin")) {
-//                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-//                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                    roles.add(adminRole);
-//                } else {
-//                    Role userRole = roleRepository.findByName(ERole.ROLE_MEMBER)
-//                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                    roles.add(userRole);
-//                }
-//            });
-//        }
-//
-//        member.setRoles(roles);
+        member.setNickname(signupRequest.getNickname());
+        member.setEmail(signupRequest.getEmail());
+        member.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         memberRepository.save(member);
         return ResponseEntity.ok(new MessageResponse("회원가입 성공!"));
     }
