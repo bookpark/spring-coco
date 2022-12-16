@@ -33,7 +33,6 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @ToString.Exclude
-    @JsonIgnore
     private List<Answer> answerList;
 
     @ManyToOne
