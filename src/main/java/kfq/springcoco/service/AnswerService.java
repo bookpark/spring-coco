@@ -21,6 +21,6 @@ public class AnswerService {
         answer.setCreatedTime(LocalDateTime.now());
         answer.setQuestion(question);
         answer.setAuthor(author);
-        answerRepository.save(answer);
+        this.answerRepository.save(answer);
     }
 }
