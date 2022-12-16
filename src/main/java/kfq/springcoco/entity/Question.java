@@ -1,5 +1,6 @@
 package kfq.springcoco.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,6 +33,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @ToString.Exclude
+    @JsonIgnore
     private List<Answer> answerList;
 
     @ManyToOne

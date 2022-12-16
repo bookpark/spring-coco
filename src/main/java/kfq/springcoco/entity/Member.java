@@ -1,5 +1,6 @@
 package kfq.springcoco.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,6 +34,8 @@ public class Member implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "author")
+    @ToString.Exclude
+    @JsonIgnore
     public List<Question> questionList;
 
     @Override
