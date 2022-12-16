@@ -2,11 +2,13 @@ package kfq.springcoco.controller;
 
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.payload.request.SignupRequest;
+import kfq.springcoco.payload.request.UpdateRequest;
 import kfq.springcoco.payload.response.MessageResponse;
 import kfq.springcoco.repository.MemberRepository;
 import kfq.springcoco.security.jwt.JwtTokenProvider;
 import kfq.springcoco.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +38,7 @@ public class MemberController {
 
     /**
      * 로그인
+     *
      * @param email
      * @param password
      * @return
@@ -63,6 +66,7 @@ public class MemberController {
 
     /**
      * 회원가입
+     *
      * @param signupRequest
      * @return
      */
@@ -90,9 +94,23 @@ public class MemberController {
 
     // 프로필 조회
     @PostMapping("/api/members/profile")
-    public ResponseEntity<Member> userInfo(String id) {
+    public ResponseEntity<Member> retrieveUser(String id) {
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
+    // 닉네임 변경
+    @PutMapping("/api/members/profile")
+    public ResponseEntity<?> updateUser(UpdateRequest updateRequest,
+                                        String id) {
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        if (memberRepository.existsByNickname(updateRequest.getNickname())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("이미 사용된 닉네임입니다."));
+        }
+        member.setNickname(updateRequest.getNickname());
+        memberRepository.save(member);
+        return ResponseEntity.ok(new MessageResponse("닉네임이 성공적으로 수정되었습니다."));
+    }
 }
