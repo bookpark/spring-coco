@@ -21,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@RestControllerAdvice
 public class MemberController {
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -28,12 +29,9 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
-    @PostMapping("/test")
-    public ResponseEntity<?> test(String email, String password) {
-        System.out.println(email);
-        System.out.println(password);
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleException() {
+        return "IllegalArgumentException!";
     }
 
     /**
@@ -113,4 +111,5 @@ public class MemberController {
         memberRepository.save(member);
         return ResponseEntity.ok(new MessageResponse("닉네임이 성공적으로 수정되었습니다."));
     }
+
 }

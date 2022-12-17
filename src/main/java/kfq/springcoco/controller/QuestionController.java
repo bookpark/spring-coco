@@ -20,6 +20,7 @@ public class QuestionController {
     private final MemberService memberService;
     private final CustomUserDetailsService customUserDetailsService;
 
+    // 질문 작성
     @PostMapping("/api/questions")
     public ResponseEntity<String> createQuestion(@RequestParam String title,
                                                  @RequestParam String content,
@@ -36,6 +37,7 @@ public class QuestionController {
         return res;
     }
 
+    // 질문 전체 리스트
     @GetMapping("/api/questions")
     public ResponseEntity<List<Question>> questionList() throws Exception {
         ResponseEntity<List<Question>> res = null;
@@ -50,6 +52,7 @@ public class QuestionController {
         return res;
     }
 
+    // 질문별 답변 리스트
     @GetMapping("/api/questions/{questionId}")
     public ResponseEntity<Question> questionDetail(@PathVariable Integer questionId) throws Exception {
         ResponseEntity<Question> res = null;

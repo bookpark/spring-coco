@@ -1,5 +1,6 @@
 package kfq.springcoco.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,14 @@ public class Member implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "questionAuthor", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<Question> questionList;
+
+    @OneToMany(mappedBy = "answerAuthor", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<Answer> answerList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

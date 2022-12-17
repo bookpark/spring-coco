@@ -47,7 +47,8 @@ public class AnswerController {
         ResponseEntity<List<Answer>> res = null;
         List<Answer> answers = null;
         try {
-            answers = answerService.answerList();
+            Question question = questionService.getQuestion(questionId);
+            answers = question.getAnswerList();
             res = new ResponseEntity<List<Answer>>(answers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

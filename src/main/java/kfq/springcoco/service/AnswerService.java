@@ -17,7 +17,6 @@ import java.util.List;
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
-    private final QuestionRepository questionRepository;
 
     public void createAnswer(String content, Question question, Member author) {
         Answer answer = new Answer();
