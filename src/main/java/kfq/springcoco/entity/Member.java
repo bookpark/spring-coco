@@ -41,6 +41,10 @@ public class Member implements UserDetails {
     @JsonBackReference
     private List<Answer> answerList;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<Asset> assetList;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
