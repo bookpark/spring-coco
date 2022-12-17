@@ -22,7 +22,7 @@ public class QuestionService {
         q.setTitle(title);
         q.setContent(content);
         q.setCreatedTime(LocalDateTime.now());
-        q.setAuthor(author);
+        q.setQuestionAuthor(author);
         this.questionRepository.save(q);
     }
 

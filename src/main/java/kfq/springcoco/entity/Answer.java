@@ -1,5 +1,6 @@
 package kfq.springcoco.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,7 +11,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Answer {
 
     @Id
@@ -26,12 +26,16 @@ public class Answer {
     @Column
     private LocalDateTime modifiedTime;
 
-    @ManyToOne
+    // ByteBuddyInterceptor 오류로 인해 AnswerList를 가져오지 못하는 문제를 해결하기 위해 EAGER로 변경
+    @ManyToOne(fetch = FetchType.EAGER)
+//    @JsonManagedReference
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne
+    // ByteBuddyInterceptor 오류로 인해 AnswerList를 가져오지 못하는 문제를 해결하기 위해 EAGER로 변경
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JoinColumn(name = "member_id")
-    private Member author;
+    private Member answerAuthor;
 
 }

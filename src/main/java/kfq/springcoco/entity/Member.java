@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Member implements UserDetails {
 
@@ -32,16 +31,6 @@ public class Member implements UserDetails {
 
     @Column(nullable = false)
     private String password;
-
-    @OneToMany(mappedBy = "author")
-    @ToString.Exclude
-    @JsonIgnore
-    public List<Question> questionList;
-
-    @OneToMany(mappedBy = "author")
-    @ToString.Exclude
-    @JsonIgnore
-    public List<Answer> answerList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

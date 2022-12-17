@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Coco {
 
     @Id
@@ -32,7 +31,7 @@ public class Coco {
     @Column
     private LocalDateTime modifiedTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member author;
 
