@@ -1,18 +1,19 @@
 package kfq.springcoco.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 public class Question {
 
     @Id
@@ -20,9 +21,11 @@ public class Question {
     private Integer questionId;
 
     @Column(length = 200, nullable = false)
+    @NotBlank
     private String title;
 
     @Column(length = 2000, nullable = false)
+    @NotBlank
     private String content;
 
     @Column
@@ -32,11 +35,13 @@ public class Question {
     private LocalDateTime modifiedTime;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    @ToString.Exclude
+    @JsonBackReference
     private List<Answer> answerList;
 
-    @ManyToOne
+    // ByteBuddyInterceptor 오류로 인해 QuestionList를 가져오지 못하는 문제를 해결하기 위해 EAGER로 변경
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JoinColumn(name = "member_id")
-    private Member author;
+    private Member questionAuthor;
 
 }

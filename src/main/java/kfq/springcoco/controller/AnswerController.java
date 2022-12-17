@@ -1,5 +1,6 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
 import kfq.springcoco.service.AnswerService;
@@ -8,9 +9,12 @@ import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,4 +42,17 @@ public class AnswerController {
         return res;
     }
 
+    @GetMapping("/api/questions/{questionId}/answers")
+    public ResponseEntity<List<Answer>> answerList(@PathVariable Integer questionId) throws Exception {
+        ResponseEntity<List<Answer>> res = null;
+        List<Answer> answers = null;
+        try {
+            answers = answerService.answerList();
+            res = new ResponseEntity<List<Answer>>(answers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Answer>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
 }
