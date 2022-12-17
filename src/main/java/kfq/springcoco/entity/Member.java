@@ -33,7 +33,7 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     @JsonIgnore
     public List<Question> questionList;
