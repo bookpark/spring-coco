@@ -7,6 +7,7 @@ import kfq.springcoco.payload.response.MessageResponse;
 import kfq.springcoco.repository.MemberRepository;
 import kfq.springcoco.security.jwt.JwtTokenProvider;
 import kfq.springcoco.service.CustomUserDetailsService;
+import kfq.springcoco.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class MemberController {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleException() {
@@ -110,6 +112,29 @@ public class MemberController {
         member.setNickname(updateRequest.getNickname());
         memberRepository.save(member);
         return ResponseEntity.ok(new MessageResponse("닉네임이 성공적으로 수정되었습니다."));
+    }
+
+    /**
+     * 회원탈퇴
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/api/members/delete")
+    public ResponseEntity<?> deleteUser(String id) {
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        if (!memberRepository.existsByEmail(id)) {
+            return ResponseEntity
+                    .badRequest().body(new MessageResponse("존재하지 않는 회원입니다."));
+        }
+        try {
+            memberService.deleteMember(member.getMemberId());
+            return ResponseEntity.ok(new MessageResponse("탈퇴 처리되었습니다."));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity
+                .badRequest().body(new MessageResponse("탈퇴 처리 실패"));
     }
 
 }

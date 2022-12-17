@@ -32,12 +32,13 @@ public class MemberService {
         throw new Exception("조회 실패!");
     }
 
+    /**
+     * 멤버 삭제/탈퇴
+     * @param memberId
+     * @throws Exception
+     */
     public void deleteMember(Integer memberId) throws Exception {
-        try {
             this.memberRepository.deleteById(memberId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }
