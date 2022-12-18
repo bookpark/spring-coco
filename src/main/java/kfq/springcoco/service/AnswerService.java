@@ -44,6 +44,10 @@ public class AnswerService {
         this.answerRepository.save(answer);
     }
 
+    public void deleteAnswer(Answer answer) {
+        this.answerRepository.delete(answer);
+    }
+
     public List<Answer> answerList() {
         return this.answerRepository.findAll(Sort.by(Sort.Direction.DESC, "answerId"));
     }

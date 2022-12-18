@@ -9,7 +9,6 @@ import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -76,4 +75,19 @@ public class AnswerController {
         }
         return res;
     }
+
+    @PostMapping("/api/answers/{answerId}/delete")
+    public ResponseEntity<?> deleteAnswer(@PathVariable Integer answerId) throws Exception {
+        ResponseEntity<String> res = null;
+        try {
+            Answer answer = answerService.getAnswer(answerId);
+            answerService.deleteAnswer(answer);
+            res = new ResponseEntity<String>("답변이 성공적으로 삭제되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<String>("답변 삭제 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
 }
