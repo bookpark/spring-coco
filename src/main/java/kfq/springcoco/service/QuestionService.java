@@ -26,6 +26,13 @@ public class QuestionService {
         this.questionRepository.save(q);
     }
 
+    public void modifyQuestion(Question question, String title, String content) {
+        question.setTitle(title);
+        question.setContent(content);
+        question.setModifiedTime(LocalDateTime.now());
+        this.questionRepository.save(question);
+    }
+
     public List<Question> questionList() {
         return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "questionId"));
     }
