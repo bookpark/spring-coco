@@ -29,14 +29,16 @@ public class QuestionController {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
-        }
-        try {
-            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-            questionService.createQuestion(title, content, member);
-            res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            res = new ResponseEntity<String>("질문 작성 실패", HttpStatus.BAD_REQUEST);
+        } else {
+            try {
+                Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+                questionService.createQuestion(title, content, member);
+                res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                res = new ResponseEntity<String>("질문 작성 실패", HttpStatus.BAD_REQUEST);
+            }
+            return res;
         }
         return res;
     }
