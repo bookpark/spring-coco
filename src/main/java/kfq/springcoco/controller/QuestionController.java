@@ -1,5 +1,6 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
 import kfq.springcoco.service.CustomUserDetailsService;
@@ -26,6 +27,9 @@ public class QuestionController {
                                                  @RequestParam String content,
                                                  @RequestParam String id) {
         ResponseEntity<String> res = null;
+        if (id == null || id.equals("")) {
+            res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
+        }
         try {
             Member member = (Member) customUserDetailsService.loadUserByUsername(id);
             questionService.createQuestion(title, content, member);
@@ -48,6 +52,24 @@ public class QuestionController {
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<List<Question>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    @PutMapping("/api/questions/{questionId}")
+    public ResponseEntity<String> modifyQuestion(String title,
+                                                 String content,
+                                                 String id,
+                                                 @PathVariable Integer questionId) {
+        ResponseEntity<String> res = null;
+        try {
+            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+            Question question = questionService.getQuestion(questionId);
+            questionService.modifyQuestion(question, title, content);
+            res = new ResponseEntity<String>("질문 수정 성공", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<String>("질문 수정 실패", HttpStatus.BAD_REQUEST);
         }
         return res;
     }
