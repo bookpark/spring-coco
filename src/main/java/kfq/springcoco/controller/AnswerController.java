@@ -9,10 +9,7 @@ import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/api/questions/{questionId}/answers")
-    public ResponseEntity<String> createQuestion(String content,
+    public ResponseEntity<String> createAnswer(String content,
                                                  String id,
                                                  @PathVariable Integer questionId) {
         ResponseEntity<String> res = null;
@@ -38,6 +35,23 @@ public class AnswerController {
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<String>("답변 작성 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    @PutMapping("/api/answers/{answerId}")
+    public ResponseEntity<String> modifyAnswer(String content,
+                                               String id,
+                                               @PathVariable Integer answerId) {
+        ResponseEntity<String> res = null;
+        try {
+            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+            Answer answer = answerService.getAnswer(answerId);
+            answerService.modifyAnswer(content, answer, member);
+            res = new ResponseEntity<String>("답변 수정 성공", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<String>("답변 수정 실패", HttpStatus.BAD_REQUEST);
         }
         return res;
     }
