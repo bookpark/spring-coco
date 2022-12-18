@@ -9,6 +9,7 @@ import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class AnswerController {
 
     @PostMapping("/api/questions/{questionId}/answers")
     public ResponseEntity<String> createAnswer(String content,
-                                                 String id,
-                                                 @PathVariable Integer questionId) {
+                                               String id,
+                                               @PathVariable Integer questionId) {
         ResponseEntity<String> res = null;
         try {
             Member member = (Member) customUserDetailsService.loadUserByUsername(id);
@@ -44,14 +45,19 @@ public class AnswerController {
                                                String id,
                                                @PathVariable Integer answerId) {
         ResponseEntity<String> res = null;
-        try {
-            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-            Answer answer = answerService.getAnswer(answerId);
-            answerService.modifyAnswer(content, answer, member);
-            res = new ResponseEntity<String>("답변 수정 성공", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            res = new ResponseEntity<String>("답변 수정 실패", HttpStatus.BAD_REQUEST);
+        if (id == null || id.equals("")) {
+            res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
+        } else {
+            try {
+                Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+                Answer answer = answerService.getAnswer(answerId);
+                answerService.modifyAnswer(content, answer, member);
+                res = new ResponseEntity<String>("답변 수정 성공", HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                res = new ResponseEntity<String>("답변 수정 실패", HttpStatus.BAD_REQUEST);
+            }
+            return res;
         }
         return res;
     }
