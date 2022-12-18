@@ -76,7 +76,7 @@ public class AnswerController {
         return res;
     }
 
-    @PostMapping("/api/answers/delete")
+    @DeleteMapping("/api/answers/delete")
     public ResponseEntity<?> deleteAnswer(Integer answerId) throws Exception {
         ResponseEntity<String> res = null;
         try {
