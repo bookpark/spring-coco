@@ -76,8 +76,8 @@ public class AnswerController {
         return res;
     }
 
-    @DeleteMapping("/api/answers/delete")
-    public ResponseEntity<?> deleteAnswer(Integer answerId) throws Exception {
+    @DeleteMapping("/api/answers/{answerId}/delete")
+    public ResponseEntity<?> deleteAnswer(@PathVariable Integer answerId) throws Exception {
         ResponseEntity<String> res = null;
         try {
             Answer answer = answerService.getAnswer(answerId);
