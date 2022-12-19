@@ -1,5 +1,6 @@
 package kfq.springcoco.service;
 
+import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
 import kfq.springcoco.repository.QuestionRepository;
@@ -43,6 +44,11 @@ public class QuestionService {
             return question.get();
         }
         throw new Exception("질문 글 오류");
+    }
+
+    // 질문 삭제
+    public void deleteAnswer(Question question) {
+        this.questionRepository.delete(question);
     }
 
 }

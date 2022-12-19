@@ -89,4 +89,19 @@ public class QuestionController {
         }
         return res;
     }
+
+    // 질문 삭제
+    @DeleteMapping("/api/questions/{questionId}")
+    public ResponseEntity<?> deleteAnswer(@PathVariable Integer questionId) throws Exception {
+        ResponseEntity<String> res = null;
+        try {
+            Question question = questionService.getQuestion(questionId);
+            questionService.deleteAnswer(question);
+            res = new ResponseEntity<String>("질문이 성공적으로 삭제되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<String>("질문 삭제 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
 }
