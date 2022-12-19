@@ -38,7 +38,6 @@ public class Question {
     @JsonBackReference
     private List<Answer> answerList;
 
-    // ByteBuddyInterceptor 오류로 인해 QuestionList를 가져오지 못하는 문제를 해결하기 위해 EAGER로 변경
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
     @JoinColumn(name = "member_id")

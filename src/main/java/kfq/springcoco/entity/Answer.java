@@ -27,14 +27,13 @@ public class Answer {
     private LocalDateTime modifiedTime;
 
     // ByteBuddyInterceptor 오류로 인해 AnswerList를 가져오지 못하는 문제를 해결하기 위해 EAGER로 변경
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
 //    @JsonManagedReference
     @JoinColumn(name = "question_id")
     private Question question;
 
-    // ByteBuddyInterceptor 오류로 인해 AnswerList를 가져오지 못하는 문제를 해결하기 위해 EAGER로 변경
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JsonManagedReference
+    @JsonManagedReference
     @JoinColumn(name = "member_id")
     private Member answerAuthor;
 

@@ -1,6 +1,8 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
+import kfq.springcoco.entity.Question;
 import kfq.springcoco.payload.request.SignupRequest;
 import kfq.springcoco.payload.request.UpdateRequest;
 import kfq.springcoco.payload.response.MessageResponse;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -136,5 +139,38 @@ public class MemberController {
         return ResponseEntity
                 .badRequest().body(new MessageResponse("탈퇴 처리 실패"));
     }
+
+    // 멤버별 질문 리스트
+    @GetMapping("/api/members/questions")
+    public ResponseEntity<List<Question>> memberQuestionList(String id) throws Exception {
+        ResponseEntity<List<Question>> res = null;
+        List<Question> questions = null;
+        try {
+            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+            questions = member.getQuestionList();
+            res = new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Question>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    // 멤버별 답변 리스트
+    @GetMapping("/api/members/answers")
+    public ResponseEntity<List<Answer>> memberAnswerList(String id) throws Exception {
+        ResponseEntity<List<Answer>> res = null;
+        List<Answer> answers = null;
+        try {
+            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+            answers = member.getAnswerList();
+            res = new ResponseEntity<List<Answer>>(answers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Answer>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
 
 }
