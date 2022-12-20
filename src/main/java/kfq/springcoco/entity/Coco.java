@@ -1,8 +1,10 @@
 package kfq.springcoco.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,7 +24,8 @@ public class Coco {
     @Column(length = 2000, nullable = false)
     private String content;
 
-    @Column(nullable = false)
+    @Column
+    @Nullable
     private Integer price;
 
     @Column
@@ -31,8 +34,12 @@ public class Coco {
     @Column
     private LocalDateTime modifiedTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JoinColumn(name = "member_id")
     private Member author;
+
+    @Enumerated(EnumType.STRING)
+    private CocoStatus status;
 
 }
