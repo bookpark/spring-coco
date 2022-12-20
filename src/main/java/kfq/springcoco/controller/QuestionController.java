@@ -92,11 +92,11 @@ public class QuestionController {
 
     // 질문 삭제
     @DeleteMapping("/api/questions/{questionId}")
-    public ResponseEntity<?> deleteAnswer(@PathVariable Integer questionId) throws Exception {
+    public ResponseEntity<?> deleteQuestion(@PathVariable Integer questionId) throws Exception {
         ResponseEntity<String> res = null;
         try {
             Question question = questionService.getQuestion(questionId);
-            questionService.deleteAnswer(question);
+            questionService.deleteQuestion(question);
             res = new ResponseEntity<String>("질문이 성공적으로 삭제되었습니다.", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
