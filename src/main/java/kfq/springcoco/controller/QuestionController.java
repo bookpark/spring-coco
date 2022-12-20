@@ -58,20 +58,26 @@ public class QuestionController {
         return res;
     }
 
+    // 질문 수정
     @PutMapping("/api/questions/{questionId}")
     public ResponseEntity<String> modifyQuestion(String title,
                                                  String content,
                                                  String id,
                                                  @PathVariable Integer questionId) {
         ResponseEntity<String> res = null;
-        try {
-            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-            Question question = questionService.getQuestion(questionId);
-            questionService.modifyQuestion(question, title, content);
-            res = new ResponseEntity<String>("질문 수정 성공", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            res = new ResponseEntity<String>("질문 수정 실패", HttpStatus.BAD_REQUEST);
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        if (id == null || id.equals("")) {
+            res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
+        } else if (id.equals(member.getEmail())){
+            try {
+                Question question = questionService.getQuestion(questionId);
+                questionService.modifyQuestion(question, title, content);
+                res = new ResponseEntity<String>("답변 수정 성공", HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                res = new ResponseEntity<String>("답변 수정 실패", HttpStatus.BAD_REQUEST);
+            }
+            return res;
         }
         return res;
     }
