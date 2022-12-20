@@ -1,14 +1,19 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.entity.Coco;
 import kfq.springcoco.entity.Member;
+import kfq.springcoco.entity.Question;
 import kfq.springcoco.service.CocoService;
 import kfq.springcoco.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +39,20 @@ public class CocoController {
                 res = new ResponseEntity<String>("코코 등록 실패", HttpStatus.BAD_REQUEST);
             }
             return res;
+        }
+        return res;
+    }
+
+    @GetMapping("/api/cocos")
+    public ResponseEntity<List<Coco>> cocoList() throws Exception {
+        ResponseEntity<List<Coco>> res = null;
+        List<Coco> cocos = null;
+        try {
+            cocos = cocoService.cocoList();
+            res = new ResponseEntity<List<Coco>>(cocos, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Coco>>(HttpStatus.BAD_REQUEST);
         }
         return res;
     }

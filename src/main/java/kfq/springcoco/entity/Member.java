@@ -33,6 +33,10 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<Coco> cocoList;
+
     @OneToMany(mappedBy = "questionAuthor", cascade = CascadeType.REMOVE)
     @JsonBackReference
     private List<Question> questionList;
