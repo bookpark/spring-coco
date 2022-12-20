@@ -22,6 +22,7 @@ public class CocoController {
     private final CocoService cocoService;
     private final CustomUserDetailsService customUserDetailsService;
 
+    // 코코 등록
     @PostMapping("/api/cocos")
     public ResponseEntity<String> createCoco(@RequestParam String title,
                                              @RequestParam String content,
@@ -43,6 +44,7 @@ public class CocoController {
         return res;
     }
 
+    // 코코 전체 리스트
     @GetMapping("/api/cocos")
     public ResponseEntity<List<Coco>> cocoList() throws Exception {
         ResponseEntity<List<Coco>> res = null;
