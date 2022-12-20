@@ -26,6 +26,7 @@ public class CocoController {
     @PostMapping("/api/cocos")
     public ResponseEntity<String> createCoco(@RequestParam String title,
                                              @RequestParam String content,
+                                             @RequestParam Integer price,
                                              @RequestParam String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
@@ -33,7 +34,7 @@ public class CocoController {
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                cocoService.createCoco(title, content, member);
+                cocoService.createCoco(title, content, price, member);
                 res = new ResponseEntity<String>("코코 등록 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();

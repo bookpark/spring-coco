@@ -18,10 +18,11 @@ public class CocoService {
 
     private final CocoRepository cocoRepository;
 
-    public void createCoco(String title, String content, Member author) {
+    public void createCoco(String title, String content, Integer price, Member author) {
         Coco coco = new Coco();
         coco.setTitle(title);
         coco.setContent(content);
+        coco.setPrice(price);
         coco.setCreatedTime(LocalDateTime.now());
         coco.setAuthor(author);
         coco.setStatus(CocoStatus.WAITING);
