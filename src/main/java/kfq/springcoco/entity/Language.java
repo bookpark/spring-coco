@@ -16,8 +16,8 @@ public class Language implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer languageId;
 
-    @Column
-    private String language;
+    @Enumerated(EnumType.STRING)
+    private LanguageEnum language;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
