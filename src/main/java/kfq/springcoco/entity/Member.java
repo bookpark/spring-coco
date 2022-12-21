@@ -47,6 +47,10 @@ public class Member implements UserDetails {
     @JsonBackReference
     private List<Language> languageList;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<Skill> skillList;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
