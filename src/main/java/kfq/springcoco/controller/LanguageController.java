@@ -2,6 +2,7 @@ package kfq.springcoco.controller;
 
 import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Language;
+import kfq.springcoco.entity.LanguageEnum;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.LanguageService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class LanguageController {
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                languageService.addLanguage(language, member);
+                languageService.addLanguage(LanguageEnum.valueOf(language), member);
                 res = new ResponseEntity<String>("언어 추가 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -43,7 +45,7 @@ public class LanguageController {
 
     // 멤버의 언어 리스트 : 멤버가 설정한 언어 리스트
     @GetMapping("/api/languages")
-    public ResponseEntity<List<Language>> languageList(String id) throws Exception{
+    public ResponseEntity<List<Language>> languageByMember(String id) throws Exception {
         ResponseEntity<List<Language>> res = null;
         List<Language> languages = null;
         try {
@@ -54,6 +56,16 @@ public class LanguageController {
             e.printStackTrace();
             res = new ResponseEntity<List<Language>>(HttpStatus.BAD_REQUEST);
         }
+        return res;
+    }
+
+    // 언어 Enum 리스트 보내기
+    @GetMapping("/api/languages/list")
+    public ResponseEntity<List<String>> languageList() {
+        ResponseEntity<List<String>> res = null;
+        List<String> languages = null;
+        languages = languageService.languageEnums();
+        res = new ResponseEntity<List<String>>(languages, HttpStatus.OK);
         return res;
     }
 }
