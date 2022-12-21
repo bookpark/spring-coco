@@ -1,11 +1,9 @@
 package kfq.springcoco.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -47,7 +45,7 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     @JsonBackReference
-    private List<Asset> assetList;
+    private List<Language> languageList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
