@@ -1,13 +1,18 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.entity.Answer;
+import kfq.springcoco.entity.Language;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +37,22 @@ public class LanguageController {
                 res = new ResponseEntity<String>("언어 추가 실패", HttpStatus.BAD_REQUEST);
             }
             return res;
+        }
+        return res;
+    }
+
+    // 멤버의 언어 리스트
+    @GetMapping("/api/languages")
+    public ResponseEntity<List<Language>> languageList(String id) throws Exception{
+        ResponseEntity<List<Language>> res = null;
+        List<Language> languages = null;
+        try {
+            Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+            languages = member.getLanguageList();
+            res = new ResponseEntity<List<Language>>(languages, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Language>>(HttpStatus.BAD_REQUEST);
         }
         return res;
     }

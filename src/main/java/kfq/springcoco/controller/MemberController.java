@@ -172,5 +172,4 @@ public class MemberController {
         return res;
     }
 
-
 }
