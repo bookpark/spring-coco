@@ -21,7 +21,7 @@ public class LanguageController {
     private final CustomUserDetailsService customUserDetailsService;
     private final LanguageService languageService;
 
-    // 멤버에 언어 추가
+    // 멤버에 언어 추가 : 언어 선택 후 추가 버튼
     @PostMapping("/api/languages")
     public ResponseEntity<String> addLanguage(String language, String id) {
         ResponseEntity<String> res = null;
@@ -41,7 +41,7 @@ public class LanguageController {
         return res;
     }
 
-    // 멤버의 언어 리스트
+    // 멤버의 언어 리스트 : 멤버가 설정한 언어 리스트
     @GetMapping("/api/languages")
     public ResponseEntity<List<Language>> languageList(String id) throws Exception{
         ResponseEntity<List<Language>> res = null;
