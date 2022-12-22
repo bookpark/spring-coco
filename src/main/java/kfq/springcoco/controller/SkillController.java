@@ -40,7 +40,7 @@ public class SkillController {
 
     // 멤버의 기술 리스트 : 멤버가 설정한 기술 리스트
     @GetMapping("/api/skills")
-    public ResponseEntity<List<Skill>> languageByMember(String id) throws Exception {
+    public ResponseEntity<List<Skill>> skillByMember(String id) throws Exception {
         ResponseEntity<List<Skill>> res = null;
         List<Skill> skills = null;
         try {
@@ -56,7 +56,7 @@ public class SkillController {
 
     // 기술 Enum 리스트 보내기
     @GetMapping("/api/skills/list")
-    public ResponseEntity<List<String>> languageList() {
+    public ResponseEntity<List<String>> skillList() {
         ResponseEntity<List<String>> res = null;
         List<String> skills = null;
         skills = skillService.skillEnum();
