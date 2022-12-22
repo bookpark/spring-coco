@@ -42,7 +42,6 @@ public class LanguageService {
                 .collect(Collectors.toList());
     }
 
-
     // 멤버에 언어 추가
     public void addLanguage(LanguageEnum language, Member member) {
         Language lang = new Language();

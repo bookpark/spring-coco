@@ -10,14 +10,14 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class Language {
+public class Skill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer languageId;
+    private Integer skillId;
 
     @Enumerated(EnumType.STRING)
-    private LanguageEnum language;
+    private SkillEnum skill;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
