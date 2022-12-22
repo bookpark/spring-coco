@@ -52,6 +52,9 @@ public class LanguageController {
             Member member = (Member) customUserDetailsService.loadUserByUsername(id);
             languages = member.getLanguageList();
             res = new ResponseEntity<List<Language>>(languages, HttpStatus.OK);
+//            for(Language lang : languages) {
+//                System.out.println(lang);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<List<Language>>(HttpStatus.BAD_REQUEST);
