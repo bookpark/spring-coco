@@ -24,7 +24,7 @@ public class Question {
     @NotBlank
     private String title;
 
-    @Column(length = 2000, nullable = false)
+    @Column(nullable = false)
     @NotBlank
     private String content;
 
