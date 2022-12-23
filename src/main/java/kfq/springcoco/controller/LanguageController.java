@@ -28,14 +28,13 @@ public class LanguageController {
     public ResponseEntity<String> addLanguage(String language, String id) {
         ResponseEntity<String> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+//        System.out.println(languageService.languageMember(id));
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
-//        } else if (Objects.equals(language, byLanguage.getLanguage().toString())) {
+//        } else if (languageList.contains(language)) {
 //            res = new ResponseEntity<String>("이미 해당 언어를 추가하셨습니다", HttpStatus.BAD_REQUEST);
         } else {
             try {
-//                String byLanguage = languageService.findByLanguage(language);
-//                System.out.println(byLanguage);
                 languageService.addLanguage(LanguageEnum.valueOf(language), member);
                 res = new ResponseEntity<String>("언어 추가 성공", HttpStatus.OK);
             } catch (Exception e) {

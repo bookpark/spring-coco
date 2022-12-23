@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class LanguageService {
 
     private final LanguageRepository languageRepository;
+    private final MemberRepository memberRepository;
 
 
     public Language findLanguage(Integer languageId) throws Exception {
@@ -46,6 +47,17 @@ public class LanguageService {
                 .collect(Collectors.toList());
     }
 
+    public List<String> languageMember(String id) {
+        Optional<Member> byEmail = memberRepository.findByEmail(id);
+        List<String> languageStringList = null;
+        List<Language> languageList = byEmail.orElse(null).getLanguageList();
+        for (Object o : languageList) {
+            languageStringList.add(o.toString());
+            return languageStringList;
+        }
+        return null;
+    }
+
     // 멤버에 언어 추가
     public void addLanguage(LanguageEnum language, Member member) {
         Language lang = new Language();
@@ -55,3 +67,4 @@ public class LanguageService {
     }
 
 }
+
