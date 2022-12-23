@@ -34,10 +34,10 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handleException() {
-        return "IllegalArgumentException!";
-    }
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public String handleException() {
+//        return "IllegalArgumentException!";
+//    }
 
     /**
      * 로그인

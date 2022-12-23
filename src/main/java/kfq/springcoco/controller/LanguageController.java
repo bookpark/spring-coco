@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,11 +27,15 @@ public class LanguageController {
     @PostMapping("/api/languages")
     public ResponseEntity<String> addLanguage(String language, String id) {
         ResponseEntity<String> res = null;
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
+//        } else if (Objects.equals(language, byLanguage.getLanguage().toString())) {
+//            res = new ResponseEntity<String>("이미 해당 언어를 추가하셨습니다", HttpStatus.BAD_REQUEST);
         } else {
             try {
-                Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+//                String byLanguage = languageService.findByLanguage(language);
+//                System.out.println(byLanguage);
                 languageService.addLanguage(LanguageEnum.valueOf(language), member);
                 res = new ResponseEntity<String>("언어 추가 성공", HttpStatus.OK);
             } catch (Exception e) {
@@ -52,9 +56,6 @@ public class LanguageController {
             Member member = (Member) customUserDetailsService.loadUserByUsername(id);
             languages = member.getLanguageList();
             res = new ResponseEntity<List<Language>>(languages, HttpStatus.OK);
-//            for(Language lang : languages) {
-//                System.out.println(lang);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<List<Language>>(HttpStatus.BAD_REQUEST);

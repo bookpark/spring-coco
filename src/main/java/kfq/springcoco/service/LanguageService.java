@@ -29,6 +29,10 @@ public class LanguageService {
         throw new Exception("언어 찾지 못함");
     }
 
+    public String findByLanguage(String language) {
+        return languageRepository.findByLanguage(LanguageEnum.valueOf(language)).toString();
+    }
+
     // 언어 리스트
     public List<Language> languageList() {
         return this.languageRepository.findAll(Sort.by(Sort.Direction.ASC, "languageId"));
