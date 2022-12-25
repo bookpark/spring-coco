@@ -28,7 +28,7 @@ public class LanguageController {
     public ResponseEntity<String> addLanguage(String language, String id) {
         ResponseEntity<String> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-        System.out.println(languageService.languageMember(id));
+//        System.out.println(languageService.languageMember(id));
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
         } else if (languageService.languageMember(id).contains(language)) {
