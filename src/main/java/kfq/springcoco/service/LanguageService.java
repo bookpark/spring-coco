@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,15 +45,18 @@ public class LanguageService {
                 .collect(Collectors.toList());
     }
 
+    // 멤버가 등록한 언어들을 List로 변환함
     public List<String> languageMember(String id) {
         Optional<Member> byEmail = memberRepository.findByEmail(id);
-        List<String> languageStringList = null;
+        assert byEmail.orElse(null) != null;
         List<Language> languageList = byEmail.orElse(null).getLanguageList();
-        for (Object o : languageList) {
-            languageStringList.add(o.toString());
-            return languageStringList;
-        }
-        return null;
+        return languageList.stream()
+                .flatMap(language -> {
+                    List<String> languageValues = new ArrayList<>();
+                    languageValues.add(language.getLanguage().toString());
+                    return languageValues.stream();
+                })
+                .collect(Collectors.toList());
     }
 
     // 멤버에 언어 추가
