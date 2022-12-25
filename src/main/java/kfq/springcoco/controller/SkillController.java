@@ -19,11 +19,14 @@ public class SkillController {
     private final CustomUserDetailsService customUserDetailsService;
     private final SkillService skillService;
 
+    // 멤버에 스킬 추가
     @PostMapping("/api/skills")
     public ResponseEntity<String> addSkill(String skill, String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
+        } else if (skillService.skillMember(id).contains(skill)) {
+            res = new ResponseEntity<String>("이미 해당 기술을 추가하셨습니다", HttpStatus.BAD_REQUEST);
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
