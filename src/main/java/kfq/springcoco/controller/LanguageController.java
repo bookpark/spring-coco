@@ -31,7 +31,7 @@ public class LanguageController {
 //        System.out.println(languageService.languageMember(id));
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
-        } else if (languageService.languageMember(id).contains(language)) {
+        } else if (languageService.languageByMember(id).contains(language)) {
             res = new ResponseEntity<String>("이미 해당 언어를 추가하셨습니다", HttpStatus.BAD_REQUEST);
         } else {
             try {

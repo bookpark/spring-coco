@@ -46,7 +46,7 @@ public class LanguageService {
     }
 
     // 멤버가 등록한 언어들을 List로 변환함
-    public List<String> languageMember(String id) {
+    public List<String> languageByMember(String id) {
         Optional<Member> byEmail = memberRepository.findByEmail(id);
         assert byEmail.orElse(null) != null;
         List<Language> languageList = byEmail.orElse(null).getLanguageList();
