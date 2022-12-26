@@ -34,6 +34,9 @@ public class Question {
     @Column
     private LocalDateTime modifiedTime;
 
+    @ElementCollection
+    private List<String> languageList;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @JsonBackReference
     private List<Answer> answerList;

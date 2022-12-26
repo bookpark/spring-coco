@@ -25,6 +25,7 @@ public class QuestionController {
     @PostMapping("/api/questions")
     public ResponseEntity<String> createQuestion(@RequestParam String title,
                                                  @RequestParam String content,
+                                                 @RequestParam List<String> languageList,
                                                  @RequestParam String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
@@ -32,7 +33,7 @@ public class QuestionController {
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                questionService.createQuestion(title, content, member);
+                questionService.createQuestion(title, content, languageList, member);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
