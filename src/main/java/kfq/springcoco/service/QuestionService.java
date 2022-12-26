@@ -18,12 +18,16 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public void createQuestion(String title, String content, List<String> languagesList, Member author) {
+    public void createQuestion(String title, String content,
+                               List<String> languagesList,
+                               List<String> skillList,
+                               Member author) {
         Question q = new Question();
         q.setTitle(title);
         q.setContent(content);
         q.setCreatedTime(LocalDateTime.now());
         q.setLanguageList(languagesList);
+        q.setSkillList(skillList);
         q.setQuestionAuthor(author);
         this.questionRepository.save(q);
     }

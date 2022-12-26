@@ -26,6 +26,7 @@ public class QuestionController {
     public ResponseEntity<String> createQuestion(@RequestParam String title,
                                                  @RequestParam String content,
                                                  @RequestParam List<String> languageList,
+                                                 @RequestParam List<String> skillList,
                                                  @RequestParam String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
@@ -33,7 +34,7 @@ public class QuestionController {
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                questionService.createQuestion(title, content, languageList, member);
+                questionService.createQuestion(title, content, languageList, skillList, member);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -69,7 +70,7 @@ public class QuestionController {
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
-        } else if (id.equals(member.getEmail())){
+        } else if (id.equals(member.getEmail())) {
             try {
                 Question question = questionService.getQuestion(questionId);
                 questionService.modifyQuestion(question, title, content);

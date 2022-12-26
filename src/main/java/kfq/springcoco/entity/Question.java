@@ -37,6 +37,9 @@ public class Question {
     @ElementCollection
     private List<String> languageList;
 
+    @ElementCollection
+    private List<String> skillList;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @JsonBackReference
     private List<Answer> answerList;
