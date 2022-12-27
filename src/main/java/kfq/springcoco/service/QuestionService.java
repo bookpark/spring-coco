@@ -19,8 +19,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     public void createQuestion(String title, String content,
-                               List<String> languagesList,
-                               List<String> skillList,
+                               List<Object> languagesList,
+                               List<Object> skillList,
                                Member author) {
         Question q = new Question();
         q.setTitle(title);

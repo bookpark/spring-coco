@@ -36,10 +36,10 @@ public class Coco {
     private LocalDateTime modifiedTime;
 
     @ElementCollection
-    private List<String> languageList;
+    private List<Object> languageList;
 
     @ElementCollection
-    private List<String> skillList;
+    private List<Object> skillList;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
