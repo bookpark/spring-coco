@@ -27,7 +27,7 @@ public class CocoController {
                                              @RequestParam String content,
                                              @RequestParam Integer price,
                                              @RequestParam List<String> languageList,
-                                             @RequestParam List<String> skillList,
+//                                             @RequestParam List<String> skillList,
                                              @RequestParam String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
@@ -35,7 +35,7 @@ public class CocoController {
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                cocoService.createCoco(title, content, price, languageList, skillList, member);
+                cocoService.createCoco(title, content, price, languageList, member);
                 res = new ResponseEntity<String>("코코 등록 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();

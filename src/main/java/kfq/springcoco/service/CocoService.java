@@ -20,7 +20,7 @@ public class CocoService {
 
     public void createCoco(String title, String content, Integer price,
                            List<String> languageList,
-                           List<String> skillList,
+//                           List<String> skillList,
                            Member author) {
         Coco coco = new Coco();
         coco.setTitle(title);
@@ -28,7 +28,7 @@ public class CocoService {
         coco.setPrice(price);
         coco.setCreatedTime(LocalDateTime.now());
         coco.setLanguageList(languageList);
-        coco.setSkillList(skillList);
+//        coco.setSkillList(skillList);
         coco.setAuthor(author);
         coco.setStatus(CocoStatus.WAITING);
         this.cocoRepository.save(coco);
