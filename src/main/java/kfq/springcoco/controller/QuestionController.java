@@ -22,8 +22,8 @@ public class QuestionController {
     @PostMapping("/api/questions")
     public ResponseEntity<String> createQuestion(@RequestParam String title,
                                                  @RequestParam String content,
-                                                 @RequestParam List<String> languageList,
-                                                 @RequestParam List<String> skillList,
+                                                 @RequestParam List<Object> languageList,
+                                                 @RequestParam List<Object> skillList,
                                                  @RequestParam String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
