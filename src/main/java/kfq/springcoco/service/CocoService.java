@@ -19,8 +19,8 @@ public class CocoService {
     private final CocoRepository cocoRepository;
 
     public void createCoco(String title, String content, Integer price,
-                           List<Object> languageList,
-                           List<Object> skillList,
+                           List<String> languageList,
+                           List<String> skillList,
                            Member author) {
         Coco coco = new Coco();
         coco.setTitle(title);

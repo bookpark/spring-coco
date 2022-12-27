@@ -26,8 +26,8 @@ public class CocoController {
     public ResponseEntity<String> createCoco(@RequestParam String title,
                                              @RequestParam String content,
                                              @RequestParam Integer price,
-                                             @RequestParam List<Object> languageList,
-                                             @RequestParam List<Object> skillList,
+                                             @RequestParam List<String> languageList,
+                                             @RequestParam List<String> skillList,
                                              @RequestParam String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {

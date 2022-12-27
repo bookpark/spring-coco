@@ -35,10 +35,10 @@ public class Question {
     private LocalDateTime modifiedTime;
 
     @ElementCollection
-    private List<Object> languageList;
+    private List<String> languageList;
 
     @ElementCollection
-    private List<Object> skillList;
+    private List<String> skillList;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @JsonBackReference
