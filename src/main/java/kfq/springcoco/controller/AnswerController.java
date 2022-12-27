@@ -39,6 +39,19 @@ public class AnswerController {
         return res;
     }
 
+    // 답변 조회
+    @GetMapping("/api/answers/{answerId}")
+    public ResponseEntity<Answer> getAnswer(@PathVariable Integer answerId) {
+        ResponseEntity<Answer> res = null;
+        try {
+            Answer answer = answerService.getAnswer(answerId);
+            res = new ResponseEntity<Answer>(answer, HttpStatus.OK);
+        } catch (Exception e) {
+            res = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
     @PutMapping("/api/answers/{answerId}")
     public ResponseEntity<String> modifyAnswer(String content,
                                                String id,
