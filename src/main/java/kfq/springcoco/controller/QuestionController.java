@@ -1,10 +1,8 @@
 package kfq.springcoco.controller;
 
-import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
 import kfq.springcoco.service.CustomUserDetailsService;
-import kfq.springcoco.service.MemberService;
 import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,6 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
-    private final MemberService memberService;
     private final CustomUserDetailsService customUserDetailsService;
 
     // 질문 작성
