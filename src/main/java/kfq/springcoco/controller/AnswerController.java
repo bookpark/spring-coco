@@ -22,19 +22,19 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/api/questions/{questionId}/answers")
-    public ResponseEntity<String> createAnswer(String content,
+    public ResponseEntity<Answer> createAnswer(String content,
                                                String id,
                                                @PathVariable Integer questionId) {
-        ResponseEntity<String> res = null;
+        ResponseEntity<Answer> res = null;
         try {
             Member member = (Member) customUserDetailsService.loadUserByUsername(id);
             Question question = questionService.getQuestion(questionId);
             System.out.println("답변: " + content);
-            answerService.createAnswer(content, question, member);
-            res = new ResponseEntity<String>("답변 작성 성공", HttpStatus.OK);
+            Answer answer = answerService.createAnswer(content, question, member);
+            res = new ResponseEntity<Answer>(answer, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            res = new ResponseEntity<String>("답변 작성 실패", HttpStatus.BAD_REQUEST);
+            res = new ResponseEntity<Answer>(HttpStatus.BAD_REQUEST);
         }
         return res;
     }

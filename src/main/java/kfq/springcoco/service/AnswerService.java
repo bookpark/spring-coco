@@ -20,13 +20,14 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    public void createAnswer(String content, Question question, Member author) {
+    public Answer createAnswer(String content, Question question, Member author) {
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setCreatedTime(LocalDateTime.now());
         answer.setQuestion(question);
         answer.setAnswerAuthor(author);
         this.answerRepository.save(answer);
+        return answer;
     }
 
     public Answer getAnswer(Integer answerId) throws Exception {
