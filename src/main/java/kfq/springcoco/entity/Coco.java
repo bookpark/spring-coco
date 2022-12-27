@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +34,12 @@ public class Coco {
 
     @Column
     private LocalDateTime modifiedTime;
+
+    @ElementCollection
+    private List<String> languageList;
+
+    @ElementCollection
+    private List<String> skillList;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference

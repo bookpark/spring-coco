@@ -2,7 +2,6 @@ package kfq.springcoco.controller;
 
 import kfq.springcoco.entity.Coco;
 import kfq.springcoco.entity.Member;
-import kfq.springcoco.entity.Question;
 import kfq.springcoco.service.CocoService;
 import kfq.springcoco.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +26,8 @@ public class CocoController {
     public ResponseEntity<String> createCoco(@RequestParam String title,
                                              @RequestParam String content,
                                              @RequestParam Integer price,
+                                             @RequestParam List<String> languageList,
+                                             @RequestParam List<String> skillList,
                                              @RequestParam String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
@@ -34,7 +35,7 @@ public class CocoController {
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                cocoService.createCoco(title, content, price, member);
+                cocoService.createCoco(title, content, price, languageList, skillList, member);
                 res = new ResponseEntity<String>("코코 등록 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
