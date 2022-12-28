@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -40,10 +41,12 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "questionAuthor", cascade = CascadeType.REMOVE)
     @JsonBackReference
+    @OrderBy("createdTime DESC")
     private List<Question> questionList;
 
     @OneToMany(mappedBy = "answerAuthor", cascade = CascadeType.REMOVE)
     @JsonBackReference
+    @OrderBy("createdTime DESC")
     private List<Answer> answerList;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
