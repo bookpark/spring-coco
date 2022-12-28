@@ -89,7 +89,7 @@ public class AnswerController {
         return res;
     }
 
-    @DeleteMapping("/api/answers/{answerId}/delete")
+    @DeleteMapping("/api/answers/{answerId}")
     public ResponseEntity<?> deleteAnswer(@PathVariable Integer answerId) throws Exception {
         ResponseEntity<String> res = null;
         try {
