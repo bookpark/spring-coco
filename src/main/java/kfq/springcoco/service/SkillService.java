@@ -52,4 +52,9 @@ public class SkillService {
         skillRepository.save(s);
     }
 
+    // 멤버의 스킬 삭제
+    public void deleteSkill(Skill skill) {
+        this.skillRepository.delete(skill);
+    }
+
 }

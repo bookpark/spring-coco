@@ -9,6 +9,7 @@ import kfq.springcoco.service.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,6 +70,34 @@ public class LanguageController {
         List<String> languages = null;
         languages = languageService.languageEnums();
         res = new ResponseEntity<List<String>>(languages, HttpStatus.OK);
+        return res;
+    }
+
+    // 멤버별 언어 삭제
+    @DeleteMapping("api/languages")
+    public ResponseEntity<String> deleteLanguage(String language, String id) {
+        ResponseEntity<String> res = null;
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        try {
+//            List<Language> languageList = member.getLanguageList();
+//            Language lang = languageList.get(languageService.findByLanguage(language).orElseThrow().getLanguageId());
+//            Iterator<Language> iterator = languageList.iterator();
+//            while (iterator.hasNext()) {
+//                Language next = iterator.next();
+//                if (next.equals(lang)) {
+//                    iterator.remove();
+//                }
+//            }
+            List<Language> languageList = member.getLanguageList();
+            Language lang = languageList.stream()
+                    .filter(o -> o.getLanguage().toString().equals(language))
+                    .findFirst().orElseThrow();
+            languageService.deleteLanguage(lang.getLanguageId());
+            res = new ResponseEntity<>("언어 삭제 성공", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<>("언어 삭제 실패", HttpStatus.BAD_REQUEST);
+        }
         return res;
     }
 }

@@ -6,6 +6,7 @@ import kfq.springcoco.service.SkillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,4 +67,24 @@ public class SkillController {
         res = new ResponseEntity<List<String>>(skills, HttpStatus.OK);
         return res;
     }
+
+    // 멤버별 기술 삭제
+    @DeleteMapping("api/skills")
+    public ResponseEntity<String> deleteSkill(String skill, String id) {
+        ResponseEntity<String> res = null;
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        try {
+            List<Skill> skillList = member.getSkillList();
+            Skill sk = skillList.stream()
+                    .filter(o -> o.getSkill().toString().equals(skill))
+                    .findFirst().orElseThrow();
+            skillService.deleteSkill(sk);
+            res = new ResponseEntity<>("기술 삭제 성공", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<>("기술 삭제 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+    
 }
