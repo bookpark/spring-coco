@@ -5,7 +5,9 @@ import kfq.springcoco.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Optional;
 
 @Service
@@ -30,6 +32,18 @@ public class MemberService {
             return member.get();
         }
         throw new Exception("조회 실패!");
+    }
+
+    public void saveImage(Member member, MultipartFile file) throws Exception {
+        String filename = null;
+        if (file != null && !file.isEmpty()) {
+            String path = "/Users/book/KFQ/final/uploads/";
+            filename = file.getOriginalFilename();
+            File dFile = new File(path + filename);
+            file.transferTo(dFile);
+            member.setFilename(filename);
+        }
+        memberRepository.save(member);
     }
 
     /**

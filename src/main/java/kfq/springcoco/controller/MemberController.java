@@ -15,10 +15,15 @@ import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -170,6 +175,36 @@ public class MemberController {
             res = new ResponseEntity<List<Answer>>(HttpStatus.BAD_REQUEST);
         }
         return res;
+    }
+
+    // 프로필 이미지 업로드
+    @PostMapping("/api/members/profile/image")
+    public ResponseEntity<String> saveImage(String id,
+                                            MultipartFile file) {
+        ResponseEntity<String> res = null;
+        Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        try {
+            memberService.saveImage(member, file);
+            res = new ResponseEntity<String>("프로필 이미지 업로드 성공", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<String>("프로필 이미지 업로드 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    // 이미지 조회
+    @GetMapping("/img/{filename}")
+    public void imageView(@PathVariable String filename, HttpServletResponse response) {
+        try {
+            String path = "/Users/book/KFQ/final/uploads/";
+            FileInputStream fis = new FileInputStream(path + filename);
+            OutputStream out = response.getOutputStream();
+            FileCopyUtils.copy(fis, out);
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
