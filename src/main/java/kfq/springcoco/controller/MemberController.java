@@ -12,6 +12,7 @@ import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.bridge.Message;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -191,20 +192,6 @@ public class MemberController {
             res = new ResponseEntity<String>("프로필 이미지 업로드 실패", HttpStatus.BAD_REQUEST);
         }
         return res;
-    }
-
-    // 이미지 조회
-    @GetMapping("/img/{filename}")
-    public void imageView(@PathVariable String filename, HttpServletResponse response) {
-        try {
-            String path = "/Users/book/KFQ/final/uploads/";
-            FileInputStream fis = new FileInputStream(path + filename);
-            OutputStream out = response.getOutputStream();
-            FileCopyUtils.copy(fis, out);
-            out.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }
