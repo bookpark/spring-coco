@@ -69,7 +69,7 @@ public class SkillController {
     }
 
     // 멤버별 기술 삭제
-    @DeleteMapping("api/skills")
+    @DeleteMapping("/api/skills")
     public ResponseEntity<String> deleteSkill(String skill, String id) {
         ResponseEntity<String> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
