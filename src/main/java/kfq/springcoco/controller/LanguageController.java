@@ -79,15 +79,20 @@ public class LanguageController {
         ResponseEntity<String> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
         try {
+//            List<Language> languageList = member.getLanguageList();
+//            Language lang = languageList.get(languageService.findByLanguage(language).orElseThrow().getLanguageId());
+//            Iterator<Language> iterator = languageList.iterator();
+//            while (iterator.hasNext()) {
+//                Language next = iterator.next();
+//                if (next.equals(lang)) {
+//                    iterator.remove();
+//                }
+//            }
             List<Language> languageList = member.getLanguageList();
-            Language lang = languageList.get(languageService.findByLanguage(language).orElseThrow().getLanguageId());
-            Iterator<Language> iterator = languageList.iterator();
-            while (iterator.hasNext()) {
-                Language next = iterator.next();
-                if (next.equals(lang)) {
-                    iterator.remove();
-                }
-            }
+            Language lang = languageList.stream()
+                    .filter(o -> o.getLanguage().toString().equals(language))
+                    .findFirst().orElseThrow();
+            languageService.deleteLanguage(lang.getLanguageId());
             res = new ResponseEntity<>("언어 삭제 성공", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
