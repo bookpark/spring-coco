@@ -74,7 +74,7 @@ public class LanguageController {
     }
 
     // 멤버별 언어 삭제
-    @DeleteMapping("api/languages")
+    @DeleteMapping("/api/languages")
     public ResponseEntity<String> deleteLanguage(String language, String id) {
         ResponseEntity<String> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
