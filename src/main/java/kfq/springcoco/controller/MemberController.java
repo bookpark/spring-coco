@@ -194,4 +194,19 @@ public class MemberController {
         return res;
     }
 
+    // 이미지 조회
+    @GetMapping("/img/{filename}")
+    public void imageView(@PathVariable String filename, HttpServletResponse response) {
+        System.out.println(filename);
+        try {
+            String path = "/Users/bang/KFQ/project/img/";
+            FileInputStream fis = new FileInputStream(path + filename);
+            OutputStream out = response.getOutputStream();
+            FileCopyUtils.copy(fis, out);
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
