@@ -197,7 +197,8 @@ public class MemberController {
     @GetMapping("/img/{filename}")
     public void imageView(@PathVariable String filename, HttpServletResponse response) {
         try {
-            String path = "/Users/ebina/Coco/test-img/";
+//            String path = "/Users/ebina/Coco/test-img/";
+            String path = "/Users/bang/KFQ/project/img/";
             FileInputStream fis = new FileInputStream(path + filename);
             OutputStream out = response.getOutputStream();
             FileCopyUtils.copy(fis, out);
