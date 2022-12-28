@@ -28,8 +28,8 @@ public class LanguageService {
         throw new Exception("언어 찾지 못함");
     }
 
-    public String findByLanguage(String language) {
-        return languageRepository.findByLanguage(LanguageEnum.valueOf(language)).toString();
+    public Optional<Language> findByLanguage(String language) {
+        return languageRepository.findByLanguage(LanguageEnum.valueOf(language));
     }
 
     // 언어 리스트
@@ -65,6 +65,11 @@ public class LanguageService {
         lang.setLanguage(language);
         lang.setMember(member);
         languageRepository.save(lang);
+    }
+
+    // 언어 삭제
+    public void deleteLanguage(Integer id) {
+        this.languageRepository.deleteById(id);
     }
 
 }
