@@ -81,8 +81,13 @@ public class LanguageController {
         try {
             List<Language> languageList = member.getLanguageList();
             Language lang = languageList.get(languageService.findByLanguage(language).orElseThrow().getLanguageId());
-            Integer languageId = lang.getLanguageId();
-            languageService.deleteLanguage(languageId);
+            Iterator<Language> iterator = languageList.iterator();
+            while (iterator.hasNext()) {
+                Language next = iterator.next();
+                if (next.equals(lang)) {
+                    iterator.remove();
+                }
+            }
             res = new ResponseEntity<>("언어 삭제 성공", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
