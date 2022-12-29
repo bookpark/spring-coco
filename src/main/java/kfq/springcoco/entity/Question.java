@@ -24,7 +24,7 @@ public class Question {
     @NotBlank
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     @NotBlank
     private String content;
 
