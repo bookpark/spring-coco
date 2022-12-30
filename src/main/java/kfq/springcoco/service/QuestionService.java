@@ -7,6 +7,7 @@ import kfq.springcoco.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,6 +55,12 @@ public class QuestionService {
     // 질문 삭제
     public void deleteQuestion(Question question) {
         this.questionRepository.delete(question);
+    }
+
+    // 조회수 카운팅
+    @Transactional
+    public int updateView(Integer id){
+        return questionRepository.updateView(id);
     }
 
 }
