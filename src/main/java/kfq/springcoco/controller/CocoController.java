@@ -1,7 +1,9 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.dto.CocoDTO;
 import kfq.springcoco.entity.Coco;
 import kfq.springcoco.entity.Member;
+import kfq.springcoco.repository.CocoRepository;
 import kfq.springcoco.service.CocoService;
 import kfq.springcoco.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,22 +24,27 @@ public class CocoController {
 
     private final CocoService cocoService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CocoRepository cocoRepository;
 
     // 코코 등록
     @PostMapping("/api/cocos")
-    public ResponseEntity<String> createCoco(@RequestParam String title,
-                                             @RequestParam String content,
-                                             @RequestParam Integer price,
-                                             @RequestParam List<String> languageList,
-                                             @RequestParam List<String> skillList,
-                                             @RequestParam String id) {
+    public ResponseEntity<String> createCoco(@Valid CocoDTO cocoDTO,
+                                             String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                cocoService.createCoco(title, content, price, languageList, skillList, member);
+                Coco c = new Coco();
+                c.setTitle(cocoDTO.getTitle());
+                c.setContent(cocoDTO.getContent());
+                c.setPrice(cocoDTO.getPrice());
+                c.setLanguageList(cocoDTO.getLanguageList());
+                c.setSkillList(cocoDTO.getSkillList());
+                c.setCreatedTime(LocalDateTime.now());
+                c.setAuthor(member);
+                cocoRepository.save(c);
                 res = new ResponseEntity<String>("코코 등록 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();

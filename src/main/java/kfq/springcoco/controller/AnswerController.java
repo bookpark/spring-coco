@@ -1,8 +1,10 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.dto.AnswerDTO;
 import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
+import kfq.springcoco.repository.AnswerRepository;
 import kfq.springcoco.service.AnswerService;
 import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.QuestionService;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,18 +23,23 @@ public class AnswerController {
     private final CustomUserDetailsService customUserDetailsService;
     private final QuestionService questionService;
     private final AnswerService answerService;
+    private final AnswerRepository answerRepository;
 
     @PostMapping("/api/questions/{questionId}/answers")
-    public ResponseEntity<Answer> createAnswer(String content,
+    public ResponseEntity<Answer> createAnswer(@Valid AnswerDTO answerDTO,
                                                String id,
                                                @PathVariable Integer questionId) {
         ResponseEntity<Answer> res = null;
         try {
             Member member = (Member) customUserDetailsService.loadUserByUsername(id);
             Question question = questionService.getQuestion(questionId);
-            System.out.println("답변: " + content);
-            Answer answer = answerService.createAnswer(content, question, member);
-            res = new ResponseEntity<Answer>(answer, HttpStatus.OK);
+            Answer a = new Answer();
+            a.setContent(answerDTO.getContent());
+            a.setCreatedTime(answerDTO.getCreatedTime());
+            a.setAnswerAuthor(member);
+            a.setQuestion(question);
+            answerRepository.save(a);
+            res = new ResponseEntity<Answer>(a, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<Answer>(HttpStatus.BAD_REQUEST);
