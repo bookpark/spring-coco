@@ -2,6 +2,7 @@ package kfq.springcoco.controller;
 
 import kfq.springcoco.dto.CocoDTO;
 import kfq.springcoco.entity.Coco;
+import kfq.springcoco.entity.CocoStatus;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.repository.CocoRepository;
 import kfq.springcoco.service.CocoService;
@@ -44,6 +45,7 @@ public class CocoController {
                 c.setSkillList(cocoDTO.getSkillList());
                 c.setCreatedTime(LocalDateTime.now());
                 c.setAuthor(member);
+                c.setStatus(CocoStatus.WAITING);
                 cocoRepository.save(c);
                 res = new ResponseEntity<String>("코코 등록 성공", HttpStatus.OK);
             } catch (Exception e) {
