@@ -119,4 +119,10 @@ public class QuestionController {
         }
         return res;
     }
+
+//    @GetMapping('/api/read/{id}')
+//    public String read(@PathVariable Integer id, Model model){
+//        QuestionDTO dto = questionService.getQuestion(id);
+//        model.addAttribute('posts', dto);
+//    }
 }
