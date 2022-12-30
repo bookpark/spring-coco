@@ -1,7 +1,9 @@
 package kfq.springcoco.controller;
 
+import kfq.springcoco.dto.QuestionDTO;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
+import kfq.springcoco.repository.QuestionRepository;
 import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,21 +21,27 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final QuestionRepository questionRepository;
 
     // 질문 작성
     @PostMapping("/api/questions")
-    public ResponseEntity<String> createQuestion(@RequestParam String title,
-                                                 @RequestParam String content,
-                                                 @RequestParam List<String > languageList,
-                                                 @RequestParam List<String> skillList,
-                                                 @RequestParam String id) {
+    public ResponseEntity<String> createQuestion(@Valid QuestionDTO questionDTO,
+                                                 String id) {
         ResponseEntity<String> res = null;
         if (id == null || id.equals("")) {
             res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
         } else {
             try {
                 Member member = (Member) customUserDetailsService.loadUserByUsername(id);
-                questionService.createQuestion(title, content, languageList, skillList, member);
+                Question q = new Question();
+                q.setTitle(questionDTO.getTitle());
+                q.setContent(questionDTO.getContent());
+                q.setLanguageList(questionDTO.getLanguageList());
+                q.setSkillList(questionDTO.getSkillList());
+                q.setCreatedTime(LocalDateTime.now());
+                q.setQuestionAuthor(member);
+                questionRepository.save(q);
+//                questionService.createQuestion(title, content, languageList, skillList, member);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
