@@ -17,7 +17,7 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer answerId;
 
-    @Column(length = 2000)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
     @Column
