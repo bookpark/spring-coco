@@ -41,7 +41,6 @@ public class QuestionController {
                 q.setCreatedTime(LocalDateTime.now());
                 q.setQuestionAuthor(member);
                 questionRepository.save(q);
-//                questionService.createQuestion(title, content, languageList, skillList, member);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();

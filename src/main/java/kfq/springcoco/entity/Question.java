@@ -50,7 +50,7 @@ public class Question {
     private Member questionAuthor;
 
     // 조회수
-    @Column(columnDefinition = "integer default 0", nullable = false)
-    private Integer view;
+//    @Column(columnDefinition = "integer default 0", nullable = false)
+//    private Integer view;
 
 }

@@ -16,8 +16,8 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     List<Question> findAll(Sort sort);
 
     // 조회수
-    @Modifying
-    @Query("update Question q set q.view = q.view + 1 where q.questionId =:id")
-    int updateView(Integer id);
+//    @Modifying
+//    @Query("update Question q set q.view = q.view + 1 where q.questionId =:id")
+//    int updateView(Integer id);
 
 }

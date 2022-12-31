@@ -58,9 +58,9 @@ public class QuestionService {
     }
 
     // 조회수 카운팅
-    @Transactional
-    public int updateView(Integer id){
-        return questionRepository.updateView(id);
-    }
+//    @Transactional
+//    public int updateView(Integer id){
+//        return questionRepository.updateView(id);
+//    }
 
 }
