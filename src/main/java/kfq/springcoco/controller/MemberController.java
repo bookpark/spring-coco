@@ -97,6 +97,7 @@ public class MemberController {
         member.setNickname(signupRequest.getNickname());
         member.setEmail(signupRequest.getEmail());
         member.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        member.setFilename("default.png");
         memberRepository.save(member);
         return ResponseEntity.ok(new MessageResponse("회원가입 성공!"));
     }
@@ -199,8 +200,9 @@ public class MemberController {
     public void imageView(@PathVariable String filename, HttpServletResponse response) {
         System.out.println(filename);
         try {
+            String path = "/Users/book/KFQ/final/uploads/";
 //            String path = "/Users/bang/KFQ/project/img/";
-            String path = "/Users/ebina/Coco/test-img/";
+//            String path = "/Users/ebina/Coco/test-img/";
             FileInputStream fis = new FileInputStream(path + filename);
             OutputStream out = response.getOutputStream();
             FileCopyUtils.copy(fis, out);
