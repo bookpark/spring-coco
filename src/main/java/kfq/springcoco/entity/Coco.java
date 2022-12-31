@@ -22,7 +22,7 @@ public class Coco {
     @Column(length = 200, nullable = false)
     private String title;
 
-    @Column(length = 2000, nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
     @Column
