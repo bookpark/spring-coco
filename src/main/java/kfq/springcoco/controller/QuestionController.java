@@ -133,9 +133,26 @@ public class QuestionController {
         return res;
     }
 
-//    @GetMapping('/api/read/{id}')
-//    public String read(@PathVariable Integer id, Model model){
-//        QuestionDTO dto = questionService.getQuestion(id);
-//        model.addAttribute('posts', dto);
-//    }
+
+    // 질문 검색
+    @GetMapping(value = {"/api/search/{keyword}", "/api/search"})
+    public ResponseEntity<List<Question>> searchQuestions (@PathVariable(required = false) String keyword) throws Exception {
+        ResponseEntity<List<Question>> res = null;
+        System.out.println(keyword);
+        List<Question> questions = null;
+        try {
+            if (keyword == null){
+                questions = questionService.questionList();
+            } else {
+                questions = questionService.searchTitle(keyword);
+            }
+            System.out.println(questions);
+            res = new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Question>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
 }

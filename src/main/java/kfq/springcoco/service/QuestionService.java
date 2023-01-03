@@ -1,6 +1,5 @@
 package kfq.springcoco.service;
 
-import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Question;
 import kfq.springcoco.repository.QuestionRepository;
@@ -62,5 +61,12 @@ public class QuestionService {
 //    public int updateView(Integer id){
 //        return questionRepository.updateView(id);
 //    }
+
+    // 질문 검색
+    @Transactional(readOnly = true)
+    public List<Question> searchTitle(String keyword) {
+        return questionRepository
+                .findByTitleContainingIgnoreCase(keyword);
+    }
 
 }
