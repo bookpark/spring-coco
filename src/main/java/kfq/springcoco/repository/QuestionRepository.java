@@ -1,6 +1,7 @@
 package kfq.springcoco.repository;
 
 import kfq.springcoco.entity.Question;
+import kfq.springcoco.payload.response.MessageResponse;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,5 +20,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 //    @Modifying
 //    @Query("update Question q set q.view = q.view + 1 where q.questionId =:id")
 //    int updateView(Integer id);
+
 
 }

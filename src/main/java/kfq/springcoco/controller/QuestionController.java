@@ -23,6 +23,18 @@ public class QuestionController {
     private final CustomUserDetailsService customUserDetailsService;
     private final QuestionRepository questionRepository;
 
+    // 조회수 증가
+//    @PatchMapping("/api/questions/{questionId}/view")
+//    public void postView(@PathVariable Integer questionId) throws Exception {
+//        try {
+//            Question question = questionService.getQuestion(questionId);
+//            question.setView(question.getView()+1);
+//            questionRepository.save(question);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     // 질문 작성
     @PostMapping("/api/questions")
     public ResponseEntity<String> createQuestion(@Valid QuestionDTO questionDTO,
@@ -40,6 +52,8 @@ public class QuestionController {
                 q.setSkillList(questionDTO.getSkillList());
                 q.setCreatedTime(LocalDateTime.now());
                 q.setQuestionAuthor(member);
+//                q.setView(0);
+//                q.setLike(0);
                 questionRepository.save(q);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {

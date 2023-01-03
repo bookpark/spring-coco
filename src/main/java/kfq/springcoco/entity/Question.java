@@ -2,9 +2,7 @@ package kfq.springcoco.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -51,6 +49,12 @@ public class Question {
 
     // 조회수
 //    @Column(columnDefinition = "integer default 0", nullable = false)
+//    @Column
 //    private Integer view;
+//
+//    // 추천
+//    @Column
+//    private Integer like;
+
 
 }
