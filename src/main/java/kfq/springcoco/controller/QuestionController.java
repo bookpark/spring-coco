@@ -9,6 +9,7 @@ import kfq.springcoco.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,8 +53,6 @@ public class QuestionController {
                 q.setSkillList(questionDTO.getSkillList());
                 q.setCreatedTime(LocalDateTime.now());
                 q.setQuestionAuthor(member);
-//                q.setView(0);
-//                q.setLike(0);
                 questionRepository.save(q);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {
@@ -104,12 +103,14 @@ public class QuestionController {
         return res;
     }
 
-    // 질문별 답변 리스트
+    // 질문 상세페이지
     @GetMapping("/api/questions/{questionId}")
+    @Transactional
     public ResponseEntity<Question> questionDetail(@PathVariable Integer questionId) throws Exception {
         ResponseEntity<Question> res = null;
         try {
             Question question = questionService.getQuestion(questionId);
+            question.setViewCount(question.getViewCount() +1);
             res = new ResponseEntity<Question>(question, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

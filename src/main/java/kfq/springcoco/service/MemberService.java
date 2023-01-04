@@ -37,8 +37,8 @@ public class MemberService {
     public void saveImage(Member member, MultipartFile file) throws Exception {
         String filename = null;
         if (file != null && !file.isEmpty()) {
-            String path = "/Users/book/KFQ/final/uploads/";
-//            String path = "/Users/ebina/Coco/test-img/";
+//            String path = "/Users/book/KFQ/final/uploads/";
+            String path = "/Users/ebina/Coco/test-img/";
 //            String path = "/Users/bang/KFQ/project/img/";
             filename = file.getOriginalFilename();
             File dFile = new File(path + filename);
