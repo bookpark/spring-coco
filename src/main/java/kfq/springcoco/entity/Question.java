@@ -51,13 +51,9 @@ public class Question {
     private Member questionAuthor;
 
     // 조회수
-//    @Column(columnDefinition = "integer default 0", nullable = false)
-//    @Column
-//    private Integer view;
-//
-//    // 추천
-//    @Column
-//    private Integer like;
+    @Column(name = "view_count", columnDefinition = "int default 0")
+    private Integer viewCount;
+
 
 
 }
