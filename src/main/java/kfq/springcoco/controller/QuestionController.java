@@ -53,6 +53,7 @@ public class QuestionController {
                 q.setSkillList(questionDTO.getSkillList());
                 q.setCreatedTime(LocalDateTime.now());
                 q.setQuestionAuthor(member);
+                q.setViewCount(0);
                 questionRepository.save(q);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {
