@@ -1,5 +1,6 @@
 package kfq.springcoco.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,5 +39,9 @@ public class Answer {
     @JsonManagedReference
     @JoinColumn(name = "member_id")
     private Member answerAuthor;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "answer")
+    private List<Recommend> recommendList;
 
 }
