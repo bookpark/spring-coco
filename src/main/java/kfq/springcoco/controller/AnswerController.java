@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -40,6 +42,7 @@ public class AnswerController {
             a.setCreatedTime(LocalDateTime.now());
             a.setAnswerAuthor(member);
             a.setQuestion(question);
+            a.setRecommendCount(0);
             answerRepository.save(a);
             res = new ResponseEntity<Answer>(a, HttpStatus.OK);
         } catch (Exception e) {
@@ -84,6 +87,7 @@ public class AnswerController {
         return res;
     }
 
+    // 질문 상세의 답변 리스트
     @GetMapping("/api/questions/{questionId}/answers")
     public ResponseEntity<List<Answer>> answerList(@PathVariable Integer questionId) throws Exception {
         ResponseEntity<List<Answer>> res = null;
@@ -91,7 +95,25 @@ public class AnswerController {
         try {
             Question question = questionService.getQuestion(questionId);
             answers = question.getAnswerList();
+            res = new ResponseEntity<List<Answer>>(answers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Answer>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
 
+    // 질문 상세의 답변 인기순 리스트
+    @GetMapping("/api/questions/{questionId}/answers/recommend")
+    public ResponseEntity<List<Answer>> answerListByRecommend(@PathVariable Integer questionId) throws Exception {
+        ResponseEntity<List<Answer>> res = null;
+        List<Answer> answers = null;
+        try {
+            Question question = questionService.getQuestion(questionId);
+            answers = question.getAnswerList();
+//            answers.sort(Comparator.comparing(Answer::getRecommendCount));
+            answers.sort(Collections.reverseOrder((a1, a2) ->
+                    a1.getRecommendCount().compareTo(a2.getRecommendCount())));
             res = new ResponseEntity<List<Answer>>(answers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

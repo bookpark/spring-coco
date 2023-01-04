@@ -3,6 +3,7 @@ package kfq.springcoco.controller;
 import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Recommend;
+import kfq.springcoco.repository.AnswerRepository;
 import kfq.springcoco.service.AnswerService;
 import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.RecommendService;
@@ -24,28 +25,33 @@ public class RecommendController {
     private final RecommendService recommendService;
     private final AnswerService answerService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final AnswerRepository answerRepository;
 
     // 추천하기
     @PostMapping("/api/recommends/{answerId}")
-    public ResponseEntity<Long> recommendAnswer(@PathVariable Integer answerId,
+    public ResponseEntity<Integer> recommendAnswer(@PathVariable Integer answerId,
                                                   String id) throws Exception {
-        ResponseEntity<Long> res = null;
+        ResponseEntity<Integer> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
         Answer answer = answerService.getAnswer(answerId);
-        long recommends = (long) answer.getRecommendList().size();
+        int recommends = (int) answer.getRecommendList().size();
+        answer.setRecommendCount(recommends);
+        answerRepository.save(answer);
         if (id == null || id.equals("")) {
-            res = new ResponseEntity<Long>(recommends, HttpStatus.BAD_REQUEST);
+            res = new ResponseEntity<Integer>(recommends, HttpStatus.BAD_REQUEST);
         } else if (recommendService.memberInRecommend(answerId).contains(id)) {
             Recommend recommend = recommendService.getRecommend(answer, member);
             recommendService.deleteRecommend(recommend);
-            res = new ResponseEntity<Long>(recommends, HttpStatus.OK);
+            res = new ResponseEntity<Integer>(recommends, HttpStatus.OK);
         } else {
             try {
                 recommendService.recommendAnswer(answer, member);
-                res = new ResponseEntity<Long>(recommends, HttpStatus.OK);
+                answer.setRecommendCount(recommends);
+                answerRepository.save(answer);
+                res = new ResponseEntity<Integer>(recommends, HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
-                res = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+                res = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
             }
             return res;
         }

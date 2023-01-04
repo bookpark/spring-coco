@@ -43,6 +43,10 @@ public class QuestionService {
         return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "questionId"));
     }
 
+    public List<Question> questionListByView() {
+        return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "viewCount"));
+    }
+
     public Question getQuestion(Integer questionId) throws Exception {
         Optional<Question> question = questionRepository.findById(questionId);
         if (question.isPresent()) {
