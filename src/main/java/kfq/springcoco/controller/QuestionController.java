@@ -24,18 +24,6 @@ public class QuestionController {
     private final CustomUserDetailsService customUserDetailsService;
     private final QuestionRepository questionRepository;
 
-    // 조회수 증가
-//    @PatchMapping("/api/questions/{questionId}/view")
-//    public void postView(@PathVariable Integer questionId) throws Exception {
-//        try {
-//            Question question = questionService.getQuestion(questionId);
-//            question.setView(question.getView()+1);
-//            questionRepository.save(question);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     // 질문 작성
     @PostMapping("/api/questions")
     public ResponseEntity<String> createQuestion(@Valid QuestionDTO questionDTO,
@@ -146,7 +134,7 @@ public class QuestionController {
             if (keyword == null){
                 questions = questionService.questionList();
             } else {
-                questions = questionService.searchTitle(keyword);
+                questions = questionService.searchAll(keyword);
             }
             System.out.println(questions);
             res = new ResponseEntity<List<Question>>(questions, HttpStatus.OK);

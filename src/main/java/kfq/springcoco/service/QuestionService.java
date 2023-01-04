@@ -56,17 +56,17 @@ public class QuestionService {
         this.questionRepository.delete(question);
     }
 
-    // 조회수 카운팅
-//    @Transactional
-//    public int updateView(Integer id){
-//        return questionRepository.updateView(id);
-//    }
-
     // 질문 검색
     @Transactional(readOnly = true)
     public List<Question> searchTitle(String keyword) {
         return questionRepository
                 .findByTitleContainingIgnoreCase(keyword);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Question> searchAll(String keyword) {
+        return questionRepository
+                .findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword);
     }
 
 }
