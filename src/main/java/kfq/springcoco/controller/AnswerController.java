@@ -8,6 +8,7 @@ import kfq.springcoco.repository.AnswerRepository;
 import kfq.springcoco.service.AnswerService;
 import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.QuestionService;
+import kfq.springcoco.service.RecommendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,6 +91,7 @@ public class AnswerController {
         try {
             Question question = questionService.getQuestion(questionId);
             answers = question.getAnswerList();
+
             res = new ResponseEntity<List<Answer>>(answers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

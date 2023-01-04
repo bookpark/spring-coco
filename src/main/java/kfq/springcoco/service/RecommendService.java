@@ -19,6 +19,7 @@ public class RecommendService {
 
     private final RecommendRepository recommendRepository;
     private final AnswerRepository answerRepository;
+    private final AnswerService answerService;
 
     // 추천 기능
     public void recommendAnswer(Answer answer, Member member) {
@@ -34,23 +35,25 @@ public class RecommendService {
     }
 
     // 추천 객체 반환
-    public Recommend getRecommend(Member member) {
-        return recommendRepository.findByMember(member);
+    public Recommend getRecommend(Answer answer, Member member) {
+        return recommendRepository.findByAnswerAndMember(answer, member);
     }
 
     // 추천 목록에 있는 멤버의 이메일 반환
-    public List<String> memberInRecommend(Integer answerId) {
-        Optional<Answer> byAnswer = answerRepository.findById(answerId);
+    public List<String> memberInRecommend(Integer answerId) throws Exception {
+        Optional<Answer> byAnswer = Optional.ofNullable(answerService.getAnswer(answerId));
         assert byAnswer.orElse(null) != null;
         List<Recommend> recommendList = byAnswer.orElse(null).getRecommendList();
-        List<String> collect = recommendList.stream()
+        return recommendList.stream()
                 .flatMap(member -> {
                     List<String> memberList = new ArrayList<>();
                     memberList.add(member.getMember().getEmail());
                     return memberList.stream();
                 })
                 .collect(Collectors.toList());
-        System.out.println(collect);
-        return collect;
+    }
+
+    public List<Recommend> recommendList() {
+        return recommendRepository.findAll();
     }
 }
