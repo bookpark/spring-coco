@@ -51,7 +51,7 @@ public class Question {
     private Member questionAuthor;
 
     // 조회수
-    @Column(name = "view_count", columnDefinition = "int default 0")
+    @Column(name = "view_count", columnDefinition = "integer default 0")
     private Integer viewCount;
 
 

@@ -41,6 +41,7 @@ public class QuestionController {
                 q.setSkillList(questionDTO.getSkillList());
                 q.setCreatedTime(LocalDateTime.now());
                 q.setQuestionAuthor(member);
+                q.setViewCount(0);
                 questionRepository.save(q);
                 res = new ResponseEntity<String>("질문 작성 성공", HttpStatus.OK);
             } catch (Exception e) {
@@ -124,10 +125,32 @@ public class QuestionController {
 
 
     // 질문 검색
+//    @GetMapping(value = {"/api/search/{keyword}", "/api/search"})
+//    public ResponseEntity<List<Question>> searchQuestions (@PathVariable(required = false) String keyword) throws Exception {
+//        ResponseEntity<List<Question>> res = null;
+//        System.out.println(keyword);
+//        List<Question> questions = null;
+//        try {
+//            if (keyword == null){
+//                questions = questionService.questionList();
+//            } else {
+//                questions = questionService.searchAll(keyword);
+//            }
+//            System.out.println(questions);
+//            res = new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            res = new ResponseEntity<List<Question>>(HttpStatus.BAD_REQUEST);
+//        }
+//        return res;
+//    }
+
+    // 카테고리별 검색
     @GetMapping(value = {"/api/search/{keyword}", "/api/search"})
-    public ResponseEntity<List<Question>> searchQuestions (@PathVariable(required = false) String keyword) throws Exception {
+    public ResponseEntity<List<Question>> categorySearch (@PathVariable(required = false) String keyword, @RequestParam String type) throws Exception {
         ResponseEntity<List<Question>> res = null;
         System.out.println(keyword);
+        System.out.println(type);
         List<Question> questions = null;
         try {
             if (keyword == null){
