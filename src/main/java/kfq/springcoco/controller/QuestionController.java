@@ -68,6 +68,21 @@ public class QuestionController {
         return res;
     }
 
+    // 인기순 리스트
+    @GetMapping("/api/questions/view")
+    public ResponseEntity<List<Question>> questionListByViewCount() throws Exception {
+        ResponseEntity<List<Question>> res = null;
+        List<Question> questions = null;
+        try {
+            questions = questionService.questionListByView();
+            res = new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Question>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
     // 질문 수정
     @PutMapping("/api/questions/{questionId}")
     public ResponseEntity<String> modifyQuestion(String title,

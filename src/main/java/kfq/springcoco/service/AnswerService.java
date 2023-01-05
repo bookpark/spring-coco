@@ -38,6 +38,10 @@ public class AnswerService {
         throw new Exception("답변 글 오류");
     }
 
+    public List<Answer> getAnswers() {
+        return answerRepository.findAll();
+    }
+
     public void modifyAnswer(String content, Answer answer, Member author) {
         answer.setContent(content);
         answer.setModifiedTime(LocalDateTime.now());

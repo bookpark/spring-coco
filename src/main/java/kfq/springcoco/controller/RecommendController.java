@@ -3,6 +3,7 @@ package kfq.springcoco.controller;
 import kfq.springcoco.entity.Answer;
 import kfq.springcoco.entity.Member;
 import kfq.springcoco.entity.Recommend;
+import kfq.springcoco.repository.AnswerRepository;
 import kfq.springcoco.service.AnswerService;
 import kfq.springcoco.service.CustomUserDetailsService;
 import kfq.springcoco.service.RecommendService;
@@ -24,40 +25,45 @@ public class RecommendController {
     private final RecommendService recommendService;
     private final AnswerService answerService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final AnswerRepository answerRepository;
 
     // 추천하기
     @PostMapping("/api/recommends/{answerId}")
-    public ResponseEntity<String> recommendAnswer(@PathVariable Integer answerId,
-                                                  String id) {
-        ResponseEntity<String> res = null;
+    public ResponseEntity<Integer> recommendAnswer(@PathVariable Integer answerId,
+                                                  String id) throws Exception {
+        ResponseEntity<Integer> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
+        Answer answer = answerService.getAnswer(answerId);
+        int recommends = (int) answer.getRecommendList().size();
+        answer.setRecommendCount(recommends);
+        answerRepository.save(answer);
         if (id == null || id.equals("")) {
-            res = new ResponseEntity<String>("로그인 필요", HttpStatus.BAD_REQUEST);
+            res = new ResponseEntity<Integer>(recommends, HttpStatus.BAD_REQUEST);
         } else if (recommendService.memberInRecommend(answerId).contains(id)) {
-            Recommend recommend = recommendService.getRecommend(member);
+            Recommend recommend = recommendService.getRecommend(answer, member);
             recommendService.deleteRecommend(recommend);
-            res = new ResponseEntity<String>("추천을 취소하였습니다", HttpStatus.OK);
+            res = new ResponseEntity<Integer>(recommends, HttpStatus.OK);
         } else {
             try {
-                Answer answer = answerService.getAnswer(answerId);
                 recommendService.recommendAnswer(answer, member);
-                res = new ResponseEntity<String>("추천 성공", HttpStatus.OK);
+                answer.setRecommendCount(recommends);
+                answerRepository.save(answer);
+                res = new ResponseEntity<Integer>(recommends, HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
-                res = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+                res = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
             }
             return res;
         }
         return res;
     }
 
-    @GetMapping("/api/recommends/{answerId}")
-    public ResponseEntity<List<Recommend>> recommendAnswerList(@PathVariable Integer answerId,
-                                                               String id) {
+    @GetMapping("/api/recommends")
+    public ResponseEntity<List<Recommend>> recommendAnswerList() {
         ResponseEntity<List<Recommend>> res = null;
         try {
-            Answer answer = answerService.getAnswer(answerId);
-            List<Recommend> recommends = answer.getRecommendList();
+            List<Recommend> recommends = recommendService.recommendList();
+            System.out.println(recommends);
             res = new ResponseEntity<List<Recommend>>(recommends, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

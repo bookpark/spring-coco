@@ -44,4 +44,7 @@ public class Answer {
     @OneToMany(mappedBy = "answer")
     private List<Recommend> recommendList;
 
+    @Column(name = "recommend_count", columnDefinition = "int default 0")
+    private Integer recommendCount;
+
 }
