@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Answer {
 
     @Id
@@ -42,6 +44,7 @@ public class Answer {
 
     @JsonIgnore
     @OneToMany(mappedBy = "answer")
+    @ToString.Exclude
     private List<Recommend> recommendList;
 
     @Column(name = "recommend_count", columnDefinition = "int default 0")

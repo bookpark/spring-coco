@@ -34,21 +34,28 @@ public class RecommendController {
         ResponseEntity<Integer> res = null;
         Member member = (Member) customUserDetailsService.loadUserByUsername(id);
         Answer answer = answerService.getAnswer(answerId);
-        int recommends = (int) answer.getRecommendList().size();
-        answer.setRecommendCount(recommends);
-        answerRepository.save(answer);
+//        int size = recommendService.recommendCount(answerId);
+//        answer.setRecommendCount(size);
+//        answerRepository.save(answer);
         if (id == null || id.equals("")) {
-            res = new ResponseEntity<Integer>(recommends, HttpStatus.BAD_REQUEST);
+            res = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
         } else if (recommendService.memberInRecommend(answerId).contains(id)) {
             Recommend recommend = recommendService.getRecommend(answer, member);
             recommendService.deleteRecommend(recommend);
-            res = new ResponseEntity<Integer>(recommends, HttpStatus.OK);
+            int sizeAfterDelete = recommendService.recommendCount(answerId);
+            answer.setRecommendCount(sizeAfterDelete);
+            System.out.println(answer);
+            answerRepository.updateRecommendCount(sizeAfterDelete, answerId);
+            System.out.println("추천취소함: " + sizeAfterDelete);
+            res = new ResponseEntity<Integer>(sizeAfterDelete, HttpStatus.OK);
         } else {
             try {
                 recommendService.recommendAnswer(answer, member);
-                answer.setRecommendCount(recommends);
-                answerRepository.save(answer);
-                res = new ResponseEntity<Integer>(recommends, HttpStatus.OK);
+                int sizeAfterRecommend = recommendService.recommendCount(answerId);
+                answer.setRecommendCount(sizeAfterRecommend);
+                answerRepository.updateRecommendCount(sizeAfterRecommend, answerId);
+                System.out.println("추천함: " + sizeAfterRecommend);
+                res = new ResponseEntity<Integer>(sizeAfterRecommend, HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
                 res = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);

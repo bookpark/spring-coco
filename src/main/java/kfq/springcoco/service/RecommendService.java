@@ -31,7 +31,7 @@ public class RecommendService {
 
     // 추천 삭제
     public void deleteRecommend(Recommend recommend) {
-        recommendRepository.delete(recommend);
+        recommendRepository.deleteById(recommend.getRecommendId());
     }
 
     // 추천 객체 반환
@@ -55,5 +55,9 @@ public class RecommendService {
 
     public List<Recommend> recommendList() {
         return recommendRepository.findAll();
+    }
+
+    public Integer recommendCount(Integer answerId) {
+        return recommendRepository.recommendCount(answerId);
     }
 }
