@@ -85,8 +85,7 @@ public class QuestionController {
 
     // 질문 수정
     @PutMapping("/api/questions/{questionId}")
-    public ResponseEntity<String> modifyQuestion(String title,
-                                                 String content,
+    public ResponseEntity<String> modifyQuestion(@Valid QuestionDTO questionDTO,
                                                  String id,
                                                  @PathVariable Integer questionId) {
         ResponseEntity<String> res = null;
@@ -96,7 +95,8 @@ public class QuestionController {
         } else if (id.equals(member.getEmail())) {
             try {
                 Question question = questionService.getQuestion(questionId);
-                questionService.modifyQuestion(question, title, content);
+                question.setTitle(questionDTO.getTitle());
+                question.setContent(questionDTO.getContent());
                 res = new ResponseEntity<String>("답변 수정 성공", HttpStatus.OK);
             } catch (Exception e) {
                 e.printStackTrace();
