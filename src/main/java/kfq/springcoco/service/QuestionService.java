@@ -60,13 +60,14 @@ public class QuestionService {
         this.questionRepository.delete(question);
     }
 
-    // 질문 검색
+    // 질문 검색 (제목)
     @Transactional(readOnly = true)
     public List<Question> searchTitle(String keyword) {
         return questionRepository
                 .findByTitleContainingIgnoreCase(keyword);
     }
 
+    // 질문 검색 (제목+내용)
     @Transactional(readOnly = true)
     public List<Question> searchAll(String keyword) {
         return questionRepository
